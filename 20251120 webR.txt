@@ -1,0 +1,163 @@
+library (tidyverse)
+dt1 <- tibble (
+  NO = c("A", "A", "A", "B", "B"),
+  MONTH = c(1, 2, 3, 1, 3),
+  YEN = c(5000, 500, 1000, 2000, 1500)
+)
+
+dt1
+
+dt2 <- dt1 |>
+pivot_wider (
+#  cols =  ,#対象列
+  names_from = MONTH,  #転置後の列名 (対象列)
+  values_from = YEN  #転置後の列名 (値)
+)
+dt2
+
+dt3 <- dt2 |>
+pivot_longer (
+  cols =  c("1", "2", "3"),#対象列
+  names_to = "MONTH",  #転置後の列名 (対象列)
+  values_to = "YEN"  #転置後の列名 (値)
+)
+dt3
+
+
+#mergeの際のsortの必要性だな。
+#Rでsql使えるの？
+#sqlの強みはクロス結合、デカルト積
+#テンソル
+
+
+#(2)連続転置例
+df0 <- tibble (
+  NO = c("001", "001", "002", "002"),
+  SEQ = c(1, 2, 1, 2),
+  A = c("XX", "YY", "ZZ", "WW"),
+  B = c("AA", "BB", "CC", "DD"),
+  C = c("aa", "cc", "dd", "bb")
+)
+df0
+
+df1 <- df0 |>
+pivot_longer (
+  cols = c("A", "B", "C"),
+  names_to ="_NAME_",
+  values_to = "COL1"
+)
+df1
+
+df2 <- df1 |>
+pivot_wider (
+  names_from = c("_NAME_", "SEQ"),
+  values_from = "COL1"
+)
+df2
+
+
+#(3)そのほかsqlのクロス結合？デカルト積のR実施
+library (tidyr)
+x <- c(1, 2, 3)
+y <- c("A", "B")
+DF <- expand.grid (x = x, y = y)
+DF
+library (dplyr)
+df01 <- tibble (a = 1:3)
+df02 <- tibble (b = c("X", "Y"))
+df03 <- df01 |>
+cross_join (df02)
+df03
+
+
+#mDF <- expand_grid (
+#a = 1:2,b = letters [1:3],c = c(TRUE, FALSE)
+#)
+
+a = 1:2
+b = letters [1:3]
+c = c(TRUE, FALSE)
+mDF <- expand.grid (  a, b, c)
+a
+b
+c
+mDF
+
+#library (data.table)
+#df04 <- data.table (a = 1:3)
+#df05 <- data.table (b = c("XX", "YY"))
+#df06 <- df04 [df05, on = .(dummy = 1), allow.cartesian = T][, dummy:= NULL]
+#↑dummyが機能しないな。
+
+
+#by sql in WebR
+library (sqldf)
+data1 <- tibble (a = c(1:2))
+data2 <- tibble (d = c("X", "Y"))
+
+result1 <- sqldf ("
+SELECT * 
+FROM data1
+CROSS JOIN data2
+")
+result1
+
+result2 <- sqldf ("
+  SELECT *
+FROM data1, data2
+where 1 = 1
+  ")
+result2
+
+
+result3 <- sqldf ("
+SELECT * 
+FROM data1
+CROSS JOIN data2
+")
+result3
+
+result4 <- sqldf ("
+  SELECT *
+FROM data1, data2
+where 1 = 1
+  ")
+result4
+
+data3 <- tibble (x = c(1:3))
+data4 <- tibble (y = c("A", "B"))
+result5 <- sqldf ("
+SELECT *
+FROM data3
+CROSS JOIN data4
+")
+result5
+
+#SAS忘備録
+#A <- c(1:3)
+#B <- c("AA", "BB")
+#リスト形式だとダメ見ないだな。下記result6 を実行すると"Error: no such table: A"
+A <- tibble (c(1:3))
+B <- tibble (c("AA", "BB"))
+
+result6 <- sqldf ("
+SELECT *
+FROM A
+CROSS JOIN B
+")
+result6
+
+
+AA <- data.frame (c(1:3))
+BB <- data.frame (c("AA", "BB"))
+
+result7 <- sqldf ("
+SELECT *
+FROM AA
+CROSS JOIN BB
+")
+result7
+#data.frameでも問題ないらしい。
+
+
+
