@@ -1,0 +1,12 @@
+This is all you need to use R in Binder.
+ghp_vvPvhQEeybNP3Hf58t
+TOI
+osrel8vOg3u59S1
+
+https://github.com/Ractals/R-with-binder2.git
+system('git config --global user.name "shuhei"')
+system('git config --global user.email "xxx@gmail.com"')
+system('git config --global --list')
+
+
+that it.
