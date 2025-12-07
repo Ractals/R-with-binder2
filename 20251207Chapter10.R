@@ -156,3 +156,53 @@ str_split (symptoms, ",", simplify = TRUE, n = 2)
 #毎回commiteしないとプログラムの安全を確保できないう#えに、
 #こうも不安定だと使い物にならないね。
 #～20:49
+
+#24:53時間のいたら解決したけど、やはり不安定だな。
+
+#column split
+#・spe = Specifies the position to split, either as a character of a number.
+#・remove = Defaults to FALSE. Determines whether the input column is removed.
+#・convert = Defaults to FALSE. Converts the string "NA" to NA.
+#・extra = Controls the behavior when the number of values produced by the split exceeds the number of new columns specified.
+#〇extra = "warn" displays a warning and drops the extra values (default).
+#〇extra ="drop" drops the extra values without displaying a warning.
+#〇extra = "merge" splits only up to the number of new columns specified by into. "ith this setting, all input data are preserved.
+
+#Below is an example uing extra = "merge" (no data is lost here).
+#Two new columns are defined, and the third symptom is placed into the second column.
+
+#The third symptom is merged into the second new column
+install.packages ("dplyr")
+library (dplyr)
+
+df |>
+  separate (symptoms, into = c("sym_1", "sym_2"), sep = ",",  extra = "merge")
+
+
+#If the default extra = "drop" is used, a warning will be displayed as shown below.
+#The third symptom is lost
+
+df |>
+  separate(symptoms, into = c("sym_1", "sym_2"), sep = ",")
+
+
+#sort in alphabetical order
+health_zones <- c("Alba", "Takota", "Delta")
+#str_order
+#Return in alphabetical order
+str_order (health_zones)
+
+
+#sort in alphabetical order
+str_sort (health_zones)
+
+
+#base R functions
+
+n_beds <- 10
+n_masks <- 20
+paste0 ("Regional hospital needs ", n_beds, " beds and ", n_masks, "masks.")
+#~25:21
+
+
+#Next time, i will start from 10.3: Organization and Standardization
