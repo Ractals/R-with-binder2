@@ -299,3 +299,160 @@ cat (str_wrap (pt_course, 40))
 #~24:03
 #next time, i will restart from 10.5:Operations based on position
 
+
+
+
+#20251214 16:53~
+#10.4 Operations based on position
+#Extract characters  by position
+library (stringr)
+str_sub ("pneumonia", 3, 3)
+
+str_sub ("paneumonia", 6, -1)
+
+str_sub ("pneumonia", 4, 15)
+# str_sub ("character or variable", startpoint, endpoint)
+
+
+
+
+#Extract words at specified positions
+#The string to be evaluated
+
+chief_complaints <- c("I just got out of the hospital 2 days", "My stomach hurts", "Severe ear pain")
+
+chief_complaints
+#Extract the 1st to 3rd words
+word (chief_complaints, start = 1, end = 3, sep = " ")
+word (chief_complaints, start= 1, end = -2, sep = " ")
+# For each string, extract the first through third words separated by spaces.
+
+
+
+#Replace characters at specified positions
+
+word <- "pneumonia"
+#Replace the 3rd and 4th characters with X.
+str_sub (word, 3, 4) <- "XX"
+word
+#like  the substr function in  SAS
+
+
+
+words <- c("pneumonia", "tubercolosis", "HIV")
+#Replace the 3rd and 4th characters with X.
+str_sub (words, 3, 4) <- "XX"
+words
+
+#Evaluate the length
+str_length ("abc")
+
+
+
+
+
+#10.5 pattern
+#Find a pattern
+#You can determine whether a pattern exists or not. Note that the default setting is case-sensitive.
+str_detect (string = "primary school teacher", pattern = "teach")
+str_detect (string = "primary school teacher", pattern = "Teach")
+
+#By setting the argument negate = TRUE, you can check whether the pattern does not exist.
+str_detect (string = "primary school teacher", pattern = "teach", negate = TRUE)
+
+#Check for the presence of a pattern while ignoring case.
+str_detect (string = "Teacher", pattern = regex ("teach", ignore_case = T))
+
+
+#A vector/column of occupations (That's obviously copy-and paste.)
+occupations <- c("field laborer",
+                 "university professor",
+                 "primary school teacher & tutor",
+                 "tutor",
+                 "nurse at regional hospital",
+                 "lineworker at Amberdeen Fish Factory",
+                 "physican",
+                 "cardiologist",
+                 "office worker",
+                 "food service")
+
+#Check whether each string contains 'teach'; TRUE/FALSE is returned.
+str_detect (occupations, "teach")
+
+
+sum (str_detect (occupations, "teach"))
+
+
+
+#Pattern to search for  (That's obviously copy-and paste again.)
+occupation_med_frontline <- str_c("medical", "medicine", "hcw", "healthcare", "home care", "home health",
+                                  "surgeon", "doctor", "doc", "physician", "surgery", "peds", "pediatrician",
+                                  "intensivist", "cardiologist", "coroner", "nurse", "nursing", "rn", "lpn",
+                                  "cna", "pa", "physician assistant", "mental health",
+                                  "emergency department technician", "resp therapist", "respiratory",
+                                  "phlebotomist", "pharmacy", "pharmacist", "hospital", "snf", "rehabilitation",
+                                  "rehab", "activity", "elderly", "subacute", "sub acute",
+                                  "clinic", "post acute", "therapist", "extended care",
+                                  "dental", "dential", "dentist",
+                                  sep = "|")
+
+occupation_med_frontline
+#Split each string using "|" as the delimiter.
+
+
+#In the example below, the number of healthcare occupations (occupation_med_frontline) included in the previously defined occupation list is returned.
+sum (str_detect (string = occupations, pattern = occupation_med_frontline))
+#In short, it counts the elements of occupations that are contained in occupation_med_frontline.
+# count up in occupation_med_frontline { occupations items
+
+
+
+#Basic R functions for string searching
+#Replace commas with periods.
+lengths <- c("2.454,56", "1,2", "6.096,5")
+as.numeric (gsub (pattern = ",",
+                  replacement = ".",
+                  x = gsub ("\\.", "", lengths)))
+
+
+
+
+
+#Replace all of them.
+outcome <- c ("Karl: dead", "Samantha: dead", "Marco: not dead")
+str_replace_all (string = outcome, pattern = "dead", replacement = "deceased")
+#Repladce all occurrences of "dead" with "deceased"
+
+
+
+#Conditional branching based on the presence or absence of a pattern.
+#from 10.2
+df |>
+  separate (symptoms, into = c("sym_1", "sym_2"), sep = ",",  extra = "merge")
+
+
+#If the default extra = "drop" is used, a warning will be displayed as shown below.
+#The third symptom is lost
+
+df |>
+  separate(symptoms, into = c("sym_1", "sym_2"), sep = ",")
+
+
+library (dplyr)
+mutate
+#In combinatopm wotj case_when ()
+df <- df |>
+  mutate (is_enducator = case_when (
+    #look for the pattern in occupation (ignoring case)
+    str_detect (occupations, regex ("teach|prof|tutor|university",
+                                    ignore_case = TRUE)) ~ "Educator",
+    #other
+    TRUE                                                 ~ "Not an educator"
+  ))
+#Error in `mutate()`:
+#  ℹ In argument: `is_educator = case_when(...)`.
+#Caused by error:
+#  ! `is_educator` must be size 6 or 1, not 10.
+#Run `rlang::last_trace()` to see where the error occurred.
+#~18:34
+
