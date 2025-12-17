@@ -106,6 +106,16 @@ ggplot (data = linelist4)+
 install.packages ("janitor")
 library (janitor)
 linelist5 <- linelist4 |>
-  mutate (delay_cat = fct_expand (delay_cat2, "Not admitted to hospital", "Transfer to other jurisdiction"))
+  mutate (delay_cat2 = fct_expand (delay_cat2, "Not admitted to hospital", "Transfer to other jurisdiction")) |>
   tabyl (delay_cat2) #Displaying tables
+#linelist5 appears to have been created successfully, but nothing happens when I run tabyl.
+
+
+
+#delete level
+linelist6 <- linelist5 |>
+  mutate (delay_cat2 = fct_drop (delay_cat2)) |>
+  tabyl (delay_cat2)
+#It doesn’t work with table() either.
+# Not working”
 #~20:20 in cafe
