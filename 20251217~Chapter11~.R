@@ -108,3 +108,4 @@ library (janitor)
 linelist5 <- linelist4 |>
   mutate (delay_cat = fct_expand (delay_cat2, "Not admitted to hospital", "Transfer to other jurisdiction"))
   tabyl (delay_cat2) #Displaying tables
+#~20:20 in cafe
