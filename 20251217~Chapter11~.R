@@ -119,3 +119,6 @@ linelist6 <- linelist5 |>
 #It doesn’t work with table() either.
 # Not working”
 #~20:20 in cafe
+
+#For some reason, it doesn't work even wen i import the data using the downloaded version of Rstudio i don't get it at all.
+#~25:15
