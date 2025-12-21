@@ -191,3 +191,101 @@ ggplot (data = linelist1) +
 ggplot (data = linelist1)+
   geom_bar (mapping = aes (x = fct_relevel (delay_cat, c("<2 days", "2-5 days", ">5 days"))))
 
+#Reverse
+ggplot (data = linelist1)+
+  geom_bar (mapping = aes (x = delay_cat))
+ggplot (data = linelist1)+
+  geom_bar (mapping = aes (x = fct_rev (delay_cat)))
+#ggplot (data = linelist1)+
+#  geom_bar (mapping = aes (x = guides (delay_cat)))
+#I don't fully understand how guides () works
+
+#Ordering by frequency
+#Sort by frequency
+ggplot (data = linelist1, aes (x = fct_infreq (delay_cat)))+
+  geom_bar ()+
+  labs (x = "Delay onset ot admission (days)",
+        title = "Ordered by frequency")
+#Reverse the order based on frequency
+ggplot (data = linelist1, aes (x = fct_rev (fct_infreq (delay_cat))))+
+  geom_bar ()+
+  labs (x = "Delay onset to admission (days)",
+  title = "Reverse of order by frequency")
+
+
+
+#Order based on the order of appearance
+#Using fct_inorder (), you can set the factor level order to match the order of first appearance in the data.
+#fct_inorder () is particularly useful when you reorder a data frame with arrange () and want the factor levels to follow that reorderd row order.
+
+#Show a concrete exaple-this explanation makes no sense as is is.
+
+#Order based on summary statistics of another column
+#Boxplot ordered by the original factor level order
+ggplot (data = linelist1)+
+  geom_boxplot (
+    aes (x = delay_cat,
+         y = ct_blood,
+         fill = delay_cat)) +
+  labs (x = "Delay onset to admission (days)",
+        title = "Ordered by original alpha-numeric levels")+
+  theme_classic ()+
+  theme (legend.position = "none")
+#Boxplot orderd by the median CT value
+ggplot (data = linelist1)+
+  geom_boxplot (
+    aes (x = fct_reorder (delay_cat, ct_blood, "median"),
+         y = ct_blood,
+         fill = delay_cat))+
+  labs (x = "Delay onset to admission (days)",
+        title = "Ordered by median CT value in group")+
+  theme_classic ()+
+  theme (legend.position = "none")
+
+#Order by the value at the end
+epidemic_data <- linelist1 |>
+  filter (date_onset < as.Date ("2014-09-21")) |>
+  count (
+    epiweek = lubridate::floor_date (date_onset, "week"),
+    hospital
+  )
+
+ggplot (data = epidemic_data)+
+  geom_line (
+    aes(
+      x = epiweek,
+      y = n,
+      color = fct_reorder2 (hospital, epiweek, n)
+    ))+
+  labs (title = "Factor levels (and legend display) by line height at end of plot",
+        color = "Hospital")
+
+
+
+
+#11.5
+#If a factor column contains missing values (NA), you can easily convert them into a named level such as "Missing" by using fct_explicit_na ().
+#By default, NA values are converted to "(Missing)" and placed at the end of the factor level order.
+#You can customize the level name suing the na_level = argument.
+#In the example below, fct_explicit_na () is applied to the delay_cat column, converting NA values to "Missing delay", and the resulting table is desplayed using tabyl ().
+linelist11_5 <- linelist1 |>
+  mutate (delay_cat6 = fct_explicit_na (delay_cat, na_level = "Missing delay")) |>
+  tabyl (delay_cat6)
+
+
+#~20:05
+
+
+
+#11.6
+
+
+
+#11.7
+
+
+
+
+#This chapter isn't very useful, and it's not particularly interesting either.
+#repeating this kind of thing just feels like pure drudgery.
+
