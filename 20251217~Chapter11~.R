@@ -149,4 +149,45 @@ tabyl (linelist7$delay_cat2)
 
 
 
-##16:
+#18:36~:
+#11.4 Adjusting the order of levels
+#Manually adjust
+head (linelist1$delay_cat)
+linelist11_4_0 <- linelist1
+
+linelist11_4_1 <- linelist11_4_0 |>
+  mutate (delay_cat3 = fct_relevel (delay_cat, c("<2 days", "2-5 days", ">5 days")))
+head (linelist11_4_1$delay_cat3)
+head (linelist1$delay_cat)
+
+tabyl (linelist11_4_0$delay_cat)  # 2-5 <2  >5
+tabyl (linelist11_4_1$delay_cat3) # <2  2-5 >5
+#tabyl (linelist7$delay_cat2)
+
+#linelist11_4_0
+#linelist11_4_1
+
+linelist11_4_2 <- linelist11_4_0 |>
+  mutate (delay_cat4 = fct_relevel (delay_cat, "<2 days", after = 1)) |>
+  tabyl (delay_cat4)
+tabyl (linelist11_4_2$delay_cat4) # >5 <2  2-5   (after = 0 or more)
+
+
+
+library (ggplot2)
+#ggplot
+#adjust within the plot
+　#Default alphanumeric ordering (no reordering in ggplot)
+ggplot (data = linelist11_4_2) + 
+  geom_bar (mapping = aes (x = delay_cat4))
+  #Factor level order as adjusted within ggplot
+ggplot (data = linelist11_4_2)+
+  geom_bar (mapping = aes (x = fct_relevel (delay_cat4, c("<2 days", "2-5 days", ">5 days"))))
+
+#all value 1.00 what is this???
+
+ggplot (data = linelist1) +
+  geom_bar (mapping = aes (x = delay_cat))
+ggplot (data = linelist1)+
+  geom_bar (mapping = aes (x = fct_relevel (delay_cat, c("<2 days", "2-5 days", ">5 days"))))
+
