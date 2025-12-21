@@ -31,6 +31,7 @@ library ("forcats")
 library ("aweek")
 library ("janitor")
 library ("tidyverse")
+
 install.packages ("dplyr")
 library (dplyr)
 #inport data
@@ -109,8 +110,7 @@ linelist5 <- linelist4 |>
   mutate (delay_cat2 = fct_expand (delay_cat2, "Not admitted to hospital", "Transfer to other jurisdiction")) |>
   tabyl (delay_cat2) #Displaying tables
 #linelist5 appears to have been created successfully, but nothing happens when I run tabyl.
-
-
+head (linelist5$delay_cat2)
 
 #delete level
 linelist6 <- linelist5 |>
@@ -122,3 +122,31 @@ linelist6 <- linelist5 |>
 
 #For some reason, it doesn't work even wen i import the data using the downloaded version of Rstudio i don't get it at all.
 #~25:15
+
+
+
+
+#20251221
+head (linelist2$delay_cat)
+head (linelist3$delay_cat2)
+head (linelist4$delay_cat2)
+head (linelist5$delay_cat2)
+head (linelist6$delay_cat2)
+tabyl (linelist5$delay_cat2)
+tabyl (linelist6$delay_cat2)
+
+linelist7 <- linelist6
+linelist7 <- linelist7 |>
+  mutate (delay_cat2 = fct_drop (delay_cat2)) |>
+  tabyl (delay_cat2)
+tabyl (linelist7$delay_cat2)
+
+#For some reason, after rerunning everything from scratch, it executed without any issues.
+#However, it still doesn't work when chained with the pipe oberator,
+#when i run tabyl on its own, i can inspect the contents of the object,
+#but drop doesn't seem to have been applied.
+#Anyway, let's move on.
+
+
+
+##16:
