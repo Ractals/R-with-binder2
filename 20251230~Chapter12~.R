@@ -31,6 +31,10 @@ head (linelist, 5)
 #12.1.1 Line list of case data
 #12.2From wide to long
 #12.2.1Wide format
+  #20260103 add
+  install.packages ("ggplot2")
+  library (ggplot2)
+
 ggplot (count_data) +
   geom_col (aes (x = data_date, y = malaria_tot), width = 1)
 
@@ -41,7 +45,6 @@ df_long <- count_data |>
     cols = c("malaria_rdt_0-4", "malaria_rdt_5-14", "malaria_rdt_15", "malaria_tot")
   )
 head (df_long, 5)
-
 
 #Select columns using tidyselect helper functions
 count_data2 <- count_data |>
@@ -77,3 +80,63 @@ ggplot (data = df_long2) +
     width = 1
   )
 #~16:08
+
+#20260103 22:02~
+#Before passing the data to ggplot (), simply extract the total number of from the dataset.
+df_long3 <- df_long2 |>
+  filter (age_group != "malaria_tot") |>
+  ggplot () +
+  geom_col (
+    aes (x = data_date, y = counts, fill = age_group),
+    width = 1
+  )
+#filter
+#ggplot
+#geom_col
+#aes
+
+head (df_long2$age_group)
+head (df_long2$data_date)
+head (df_long2$counts)
+#head (df_long$age_group)
+df_long3
+df_long2$age_group
+
+ggplot (data = df_long3) +
+  geom_col(
+    mapping = aes (x = data_date, y = counts, fill = age_group),
+    width = 1
+  )
+#I can't create df_long3 from df_long2. i dont't understand what it reason.
+#~22:36
+
+#When running pivot_longer (), you can exclude this variable (the malaria_tot column) ad kee it in the dataset as a separate variable.
+
+#12.2.3 Pivoting data that contain multiple data types
+#
+#
+#
+#
+
+#12.3 Feom long to wide
+#
+#
+
+#pivot_wider ()
+#
+#
+
+#12.4 Filling in missing values
+#
+#
+#
+
+#fill ()
+#
+#
+#
+#
+#
+#
+
+#12.5 References
