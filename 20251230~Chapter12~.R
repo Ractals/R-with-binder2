@@ -153,25 +153,25 @@ str (count_data)
 df <- tibble (
 id  = c("A", "B", "C"),
 obs1_date = c("2021-04-23", "2021-04-23", "2021-04-23"),
-oba1_status = c("Healthy", "Healthy", "Missing"),
+obs1_status = c("Healthy", "Healthy", "Missing"),
 obs2_date = c("2021-04-24", "2021-04-24", "2021-04-24"),
 obs2_status = c("Healthy", "Healthy", "Healthy"),
 obs3_date = c("2021-04-25", "2021-04-25", "2021-04-25"),
 obs3_status = c("Unwell", "Healthy", "Healthy")
 )
 df
-
+#df$obs3_status
 df2 <- df |>
   pivot_longer (
     cols = -id,
     names_to = c("observation")
   )
 df2
-
 df_long5 <- df |>
   pivot_longer (
     cols = -id,
     names_to = c("observation", ".value"),
+#names_to = c("observation"),
     names_sep = "_"
   )
 df_long5
@@ -198,6 +198,10 @@ ggplot (data = df_long6, mapping = aes (x = date, y = id, fill = status)) +
   )
 
 #12.3 Feom long to wide
+df_wide <- linelist |>
+  count (age_cat, gender)
+df_wide
+
 #
 #
 
