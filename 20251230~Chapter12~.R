@@ -112,6 +112,19 @@ ggplot (data = df_long3) +
 
 #When running pivot_longer (), you can exclude this variable (the malaria_tot column) ad kee it in the dataset as a separate variable.
 
+
+
+#20260111 18:24~
+#retry on 0103 (without "malaria_tot in df_long)
+df_long3_2 <- df_long |>
+  ggplot ()+
+  geom_col (
+    aes (x = data_date, y = counts, fill = age_group),
+    width = 1
+  )
+df_long3_2
+
+
 #12.2.3 Pivoting data that contain multiple data types
 #
 #
