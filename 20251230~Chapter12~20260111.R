@@ -308,5 +308,6 @@ df_combined6 <- df_combined5 |>
   knitor::kable ()
 #Error in loadNamespace(x) : there is no package called ‘knitor’
 #This is due to the effect of the previous logic.
-#~26:08
+
 #12.5 References
+#~26:08
