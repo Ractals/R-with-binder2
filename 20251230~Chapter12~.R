@@ -102,11 +102,11 @@ head (df_long2$counts)
 df_long3
 df_long2$age_group
 
-ggplot (data = df_long3) +
-  geom_col(
-    mapping = aes (x = data_date, y = counts, fill = age_group),
-    width = 1
-  )
+#ggplot (data = df_long3) +
+#  geom_col(
+#    mapping = aes (x = data_date, y = counts, fill = age_group),
+#    width = 1
+#  )
 #I can't create df_long3 from df_long2. i dont't understand what it reason.
 #~22:36
 
@@ -115,8 +115,14 @@ ggplot (data = df_long3) +
 
 
 #20260111 18:24~
-#retry on 0103 (without "malaria_tot in df_long)
-df_long3_2 <- df_long |>
+#retry on 0103 (without "malaria_tot in df_long2)
+
+#when creating the prot, remove "malaria_tot"
+#df_long$counts
+df_long2$counts
+
+df_long3_2 <- df_long2 |>
+  filter (age_group != "malaria_tot") |>
   ggplot ()+
   geom_col (
     aes (x = data_date, y = counts, fill = age_group),
@@ -124,12 +130,72 @@ df_long3_2 <- df_long |>
   )
 df_long3_2
 
+#or alternatively, specify only the data other than "malaria_tot" when transposing.
 
+df_long4 <- count_data |>
+  pivot_longer (
+    cols = "malaria_rdt_0-4" : malaria_rdt_15,
+    names_to = "age_group",
+    values_to = "counts"
+  )
+df_long4
 #12.2.3 Pivoting data that contain multiple data types
-#
-#
-#
-#
+df <- df_long2 |>
+  pivot_longer (
+    cols = -id,
+    names_to = c ("observation")
+  )
+str (count_data)
+#what the hell, so it's not real data?
+#A	2021-04-23	Healthy	2021-04-24	Healthy	2021-04-25	Unwell
+#B	2021-04-23	Healthy	2021-04-24	Healthy	2021-04-25	Healthy
+#C	2021-04-23	Missing	2021-04-24	Healthy
+df <- tibble (
+id  = c("A", "B", "C"),
+obs1_date = c("2021-04-23", "2021-04-23", "2021-04-23"),
+oba1_status = c("Healthy", "Healthy", "Missing"),
+obs2_date = c("2021-04-24", "2021-04-24", "2021-04-24"),
+obs2_status = c("Healthy", "Healthy", "Healthy"),
+obs3_date = c("2021-04-25", "2021-04-25", "2021-04-25"),
+obs3_status = c("Unwell", "Healthy", "Healthy")
+)
+df
+
+df2 <- df |>
+  pivot_longer (
+    cols = -id,
+    names_to = c("observation")
+  )
+df2
+
+df_long5 <- df |>
+  pivot_longer (
+    cols = -id,
+    names_to = c("observation", ".value"),
+    names_sep = "_"
+  )
+df_long5
+
+
+df_long6 <- df_long5 |>
+  mutate (
+    date = date |> lubridate::as_date (),
+    observation = 
+      observation |>
+      str_remove_all ("obs") |>
+      as.numeric ()
+  )
+df_long6
+
+
+ggplot (data = df_long6, mapping = aes (x = date, y = id, fill = status)) +
+  geom_tile (colour = "black")+
+  scale_fill_manual (
+    values = 
+      c ("Healthy" = "lightgreen",
+         "Unwell" = "red",
+         "Missing" = "orange")
+  )
 
 #12.3 Feom long to wide
 #
