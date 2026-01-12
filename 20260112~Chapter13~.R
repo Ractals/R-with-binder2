@@ -83,19 +83,85 @@ linelist6 <- linelist |>
   tally () |>
   ungroup (gender) #Remove grouping by gender while keeping grouping by outcome.
 head (linelist6, 5)
+#Note: count () automatically ungrups the data after performing the count.
+#I don't understand why a footnote about count () is included here, but it is an important note, so i'm making a memo of it.
 
 #13.3 Summarizing grouped data
+#Sumary statistics for an ungrouped line list
+
+
+linelist7 <- linelist |>
+  summarise (
+    n_cases = n(),
+    mean_age = mean (age_years, na.rm = T),
+    max_age = max (age_years, na.rm = T),
+    min_age = min (age_years, na.rm = T),
+    n_males = sum (gender == "m", na.rm = T)
+  )
+linelist7
+
+#Summary statistics for a grouped line list
+linelist8 <- linelist |>
+  group_by (outcome) |>
+  summarise (
+    n_case = n (),
+    mean_age = mean (age_years, na.rm = T),
+    max_age = max (age_years, na.rm = T),
+    min_age = min (age_years, na.rm = T),
+    n_males = sum (gender == "m", na.rm = T)
+  )
+linelist8
 
 #13.4 Aggregation grouped data
-
 #tally ()
+linelist9 <- linelist |>
+  tally()
+linelist9
+
+
+linelist10 <- linelist |>
+  group_by (outcome) |>
+  tally (sort = T)
+linelist10
 
 #count ()
+linelist11 <- linelist |>
+  count (outcome)
+linelist11
+
+linelist12 <- linelist |>
+  count (age_class = ifelse (age >= 18, "adult", "child"), sort = T)
+linelist12
+
+
+linelist13 <- linelist |>
+  #count unique outcome-gender groups
+  count (gender, hospital) |>
+  #Aggredate rows by gender (3), and count the number of hospitals by gender (6)
+  count (gender, name = "hospitals per gender")
+linelist13
 
 #Add totals
-
+linelist14 <- linelist |>
+  as_tibble () |> #Convert to a tibble for cleaner output
+  add_count (hospital) |>#Add a count column n by hospital
+  select (hospital, n, everything ())#Reorder columns for demonstration purposes
+linelist14
 
 #Add sums
+linelist15 <- linelist |> #Case line list
+  tabyl (age_cat, gender) |> #Create a cross-taulation of two columns
+  adorn_totals (where = "row") |> #Add a total row
+  adorn_percentages (denominator = "col") |> #Convert to proportions using column totals as denominators
+  adorn_pct_formatting () |> #Convert proportions to percentages
+  adorn_ns (position = "front") |> #Display as "count (percentage)"
+  adorn_title ( #Adjust the title
+    row_name = "Age Category",
+    col_name = "Gender"
+  )
+linelist15
+
+
 
 
 
