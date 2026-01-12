@@ -142,6 +142,9 @@ linelist13 <- linelist |>
 linelist13
 
 #Add totals
+#In contrast to count () and summarise (), 
+#using add_count () allows you to add a new column n containing the number of rows per group, 
+#while retaining all oter columns in the data frame.
 linelist14 <- linelist |>
   as_tibble () |> #Convert to a tibble for cleaner output
   add_count (hospital) |>#Add a count column n by hospital
@@ -166,12 +169,70 @@ linelist15
 
 
 #13.5 Grouping by date
-
 #Group line list cases by day
+daily_counts <- linelist |>
+  drop_na (date_onset) |> #Remove rows with missing date_onset values
+  count (date_onset) #Cont the number of rows for each unique date
+daily_counts
+
+class (linelist$date_onset)
+linelist0 <- linelist |>
+  mutate (date_onset2 = as.Date (date_onset, format = "%Y/%m/%d"))
+
+linelist0 <- linelist %>% 
+  mutate(date_onset = as.Date(date_onset, format = "%d/%m/%Y"))
+
+class (linelist$date_onset)
+head (linelist$date_onset, 5) 
+class (linelist0$date_onset2)
+head (linelist0$date_onset2, 5) 
+linelist00 <- linelist |>
+#  mutate (date_onset2 = as.Date(date_onset, origin = "1970-01-01"))
+  mutate (date_onset = as.Date(date_onset, origin = "1899-12-30"))
+class (linelist00$date_onset)
+head (linelist00$date_onset, 5) 
+
+
+daily_count <- linelist00 |>
+  drop_na (date_onset) |> #Remove rows with missing values in the column
+  count (date_onset) |> #Count the number of rows for each unique date
+  complete ( #Display all dates, including those with no cases
+    date_onset = seq.Date ( #Redefine the column as a date sequence
+      from = min (date_onset, na.rm = T),
+      to = max (date_onset, na.rm = T),
+      by = "day"),
+    fill = list (n = 0)) #Add new rows and display 0 in column n instead of the default NA
+daily_count
 
 #Group line list cases by week
+#Create a dataset of weekly case counts
+weekly_counts <- linelist00 |> 
+  drop_na (date_onset) |> #Remove rows with missing values in the date_onset column
+  mutate (week = lubridate::floor_date (date_onset, unit = "week"))|> #Create a new column representing the week of onset
+  count (week) |> #Group the date by week and count the number of rows per group
+  complete ( #Ensure that all dates are shown, even when there are no cases
+    week = seq.Date ( #Redefine the column as a date sequence
+      from = min (week, na.rm = T),
+      to = max (week, na.rm = T),
+      by = "week"),
+    fill = list (n = 0)) #Add bew rows and display 0 in column n instead of the default NA
+weekly_counts
 
 #Group line list cases by month
+#Create a dataset of monthly case counts
+monthly_counts <- linelist00 |>
+  drop_na (date_onset) |>
+  mutate (month = lubridate::floor_date (date_onset, unit = "months")) |> #Create a new column representing the first day of the onset month
+  count (month) |> #Count the number of case per month
+  complete (
+    month = seq.Date (
+      min (month, na.rm = T),  #Include all months, even those with no reported case
+      max (month, na.rm = T),
+      by = "month"),
+    fill = list (n = 0))
+monthly_counts
+
+
 
 
 #Aggregate daily counts into weekly counts
@@ -183,6 +244,9 @@ linelist15
 #To aggredate daily counts into monthly counts, use floor_date () with unit = "month" as shown above.
 #Again, instead of count (), use group_by () and summarize (),
 #This is because you need not only to count the number of rows per month, but also to sum the daily case counts useing sum ().
+
+
+
 
 #13.6 Sorting groped data
 #When you use arrange () from dplyr to reorder rows in a data frame, it behaves the same way even when the data are grope, unless the argument .by_group = TRUE is specified.
