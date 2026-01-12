@@ -85,3 +85,51 @@ linelist6 <- linelist |>
 head (linelist6, 5)
 
 #13.3 Summarizing grouped data
+
+#13.4 Aggregation grouped data
+
+#tally ()
+
+#count ()
+
+#Add totals
+
+
+#Add sums
+
+
+
+#13.5 Grouping by date
+
+#Group line list cases by day
+
+#Group line list cases by week
+
+#Group line list cases by month
+
+
+#Aggregate daily counts into weekly counts
+#To aggredate daily counts into weekly counts, use floor_date () as shown above.
+#However, insteadof count (), use group_by () and summarize ().
+#This is because you need not only to count the number of rows per week, but also to sum the daily case counts using sum ().
+
+#Aggredate daily counts into monthly counts
+#To aggredate daily counts into monthly counts, use floor_date () with unit = "month" as shown above.
+#Again, instead of count (), use group_by () and summarize (),
+#This is because you need not only to count the number of rows per month, but also to sum the daily case counts useing sum ().
+
+#13.6 Sorting groped data
+#When you use arrange () from dplyr to reorder rows in a data frame, it behaves the same way even when the data are grope, unless the argument .by_group = TRUE is specified.
+#When .by_group = TRUE is used, rows are first sorted  y the grouping variables, and then by the variables specified in arrange ().
+
+#13.7 Filtering grouped data
+
+#Slicing by group
+
+#Filtering by grop size
+
+#13.8 Transforming grouped data
+
+#13.9 Selecting grouped data
+
+#13.10 References
