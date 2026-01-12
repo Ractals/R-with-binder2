@@ -50,9 +50,38 @@ linelist4 <- linelist |>
 linelist4
 
 #Adding and removing grouping variables
+#Group by outcome
+by_outcome <- linelist |>
+  group_by (outcome)
+by_outcome_tally <- by_outcome |> 
+  tally ()
+by_outcome_tally
+#Additionally,group by sex
+by_outcome_gender <- by_outcome |>
+  group_by (gender, .add = TRUE)
+by_outcome_gender_tally <- by_outcome_gender |>
+  tally ()
+by_outcome_gender_tally
 
 
 #Ungrouping
+head (linelist,5)
+linelist0 <- linelist
+linelist <- linelist0
+linelist5_0 <- linelist |>
+  group_by (outcome, gender) |>
+  tally () 
+head (linelist5_0, 5)
+linelist5 <- linelist |>
+  group_by (outcome, gender) |>
+  tally () |>
+  ungroup ()
+head (linelist5, 5)
 
+linelist6 <- linelist |>
+  group_by (outcome, gender) |>
+  tally () |>
+  ungroup (gender) #Remove grouping by gender while keeping grouping by outcome.
+head (linelist6, 5)
 
 #13.3 Summarizing grouped data
