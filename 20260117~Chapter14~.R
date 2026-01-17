@@ -99,7 +99,7 @@ linelist_mini_complex2 <- linelist_mini |>
   anti_join (hosp_info2, by = c ("hospital" = "hosp_name"))
 linelist_mini_complex2
 
-#~15:24
+#~25:24
 
 #14.3
 
