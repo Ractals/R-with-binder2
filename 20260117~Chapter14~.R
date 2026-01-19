@@ -217,12 +217,12 @@ results_not_matched <- results [!rownames (results) %in% my_matches$inds.b,] #Ro
 
 #Pribabilistic deduplication
 #Run fastLink on the same dataset
+cases_dup <- complete
 dedupe_output <- fastLink (
   dfA = cases_dup,
   dfB = cases_dup,
   varnames = c ("gender", "first", "middle", "last", "yr", "mon", "day", "district")
 )
-#So now you're giving an example using an object that doesn't even exist? Are you kidding me??
 
 #Run getMatches ()
 cases_dedupe <- getMatches (
@@ -230,7 +230,6 @@ cases_dedupe <- getMatches (
   dfB = cases_dup,
   fl.out = dedupe_output
 )
-#agein
 
 #Display the second row and all of its potential duplicates
 cases_dedupe |>
