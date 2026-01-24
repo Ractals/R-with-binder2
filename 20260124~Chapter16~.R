@@ -130,7 +130,6 @@ ggplot (outbreak,             #Name of the incidence object
         color = "Gender"
   )
 
-#Monitoring Loop Progress
 #Create a vector cotaining hospital names
 hospital_names <- unique (linelist$hospital)
 #For each hospital name ("hosp") in hospital_names, create and display an epidemic curve
@@ -176,10 +175,33 @@ print (plot_hosp)
 
 #~16:38
 
+#19:09~
+#Monitoring Loop Progress
+#Loop that displays progress every 100 iterations
+for (i in seq_len (nrow (linelist))){
+  #Print progress
+  if (i %% 100 == 0){ #The %% operator represents the modulus (remainder)
+    print (i)
+}}
 
 
 #16.3 purrr and Lists
+pacman:: p_load (
+  rio,
+  here,
+  tidyerse,
+  writexl,
+  readxl
+)
 #map ()
+download.file ("https://github.com/appliedepi/epiRhandbook_eng/raw/master/data/example/hospital_linelists.xlsx", "hospital_linelists.xlsx")
+#https://github.com/appliedepi/epiRhandbook_eng/raw/refs/heads/master/data/example/hospital_linelists.xlsx
+install.packages ("openxlsx")
+library (openxlsx)
+sheet_names <- readxl::excel_sheets ("hospital_linelists.xlsx") 
+sheet_names
+
+
 #Splitting and Exporting Datasets
 #Custom Functions
 #Mapping Functions Across Multiple Columns
