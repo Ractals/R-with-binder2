@@ -201,12 +201,102 @@ library (openxlsx)
 sheet_names <- readxl::excel_sheets ("hospital_linelists.xlsx") 
 sheet_names
 
+combined <- sheet_names |>
+  purrr::set_names () |>
+  map (.f = ~import ("hospital_linelists.xlsx", which = .x))
+combined
+
+sheet_names2 <- readxl::excel_sheets ("hospital_linelists.xlsx") #Extract sheet names
+combined2 <- sheet_names2 |> #Start from the sheet names
+  purrr::set_names () |> # Specify the names
+  map (.f = ~import ("hospital_linelists.xlsx", which = .x)) |> #Iterate over the sheets, import them, and store them in a list 
+  bind_rows (.id = "origin_sheet") #Combine the list of data frames and save the original sheet names in a new column
+sheet_names2
+
+
+
+sheet_names3 <- readxl::excel_sheets ("hospital_linelists.xlsx")
+combined3 <- sheet_names3 |>
+  purrr::set_names () |>
+  #exclude the first sheet
+  map_at (.f = ~import ("hospital_linelists.xlsx", which = .x),
+          .at = c(-1))
+combined3
+
+
 
 #Splitting and Exporting Datasets
+#Split the data
+linelist_split <- linelist |>
+  group_split (hospital)
+head (linelist_split, 10)
+
+names (linelist_split) <- linelist_split |> # Specify the names of the list of data frames
+  # Extract the names by applying the following function to each data frame
+  map (.f = ~pull (.x, hospital)) |> # Extract the hospital column
+  map (.f = ~as.character (.x))|># Convert the extracted values to charater (just in case)
+  map (.f = ~unique (.x)) # Extract the hospital name
+names (linelist_split)
+
+
+
+#Use group_split () with two or more columns
+#Split the line list by all combinations of hospital and gender 
+linelist_split3 <- linelist |>
+  group_split (hospital, gender)
+ #Extract the group keys as a data frame
+groupings <- linelist |>
+  group_by (hospital, gender) |>
+  group_keys ()
+groupings #Display the group keys
+head (linelist_split3, 10)
+
+
+
+
+ #Combine values into a single name
+names (linelist_split3) <- groupings |>
+  mutate (across (everything (), replace_na, "Missing")) |> #Replace NA with "Missing" in all columns
+  unite ("combined", sep = "-") |>  #Concatenate all column values into a single string
+  setNames (NULL) |>
+  as_vector () |>
+  as.list ()
+names (linelist_split3)
+
+
+
+
+#Export as Excel sheets
+linelist_split5 <- linelist_split3 |>
+  writexl::write_xlsx (path = here ("data", "hospital_linelists.xlse"))
+#[ERROR] workbook_close(): Error creating '/home/jovyan/R-with-binder2/data/hospital_linelists.xlse'. System error = No such file or directory
+#Error: Error in libxlsxwriter: 'Error creating output xlsx file. Usually a permissions error.'
+#In addition: Warning messages:
+#  1: In writexl::write_xlsx(linelist_split3, path = here("data", "hospital_linelists.xlse")) :
+#  Truncating sheet name(s) to 31 characters
+#2: In writexl::write_xlsx(linelist_split3, path = here("data", "hospital_linelists.xlse")) :
+#  Deduplicating sheet names
+#~20:14
+
+
+#Export as CSV files
+
+
 #Custom Functions
+
+
+
 #Mapping Functions Across Multiple Columns
+
+
+
 #Converting Lists to Data Frames
+
+
+
 #Dropping, Keeping, and Compaction Lists
+
+
 
 #16.4 The apply Family of Functions
 #16.5 References
