@@ -336,10 +336,72 @@ writexl::write_xlsx(
 
 #15:32~
 #Export as CSV files
+#names (linelist_split3) |>
+#  map (.f = ~export (linelist_split3[[.x]], file = str_glue ("{here('data')}/{.x}.csv")))
+#Consulting AI to resolve issure
+dir.create(here("data"), showWarnings = FALSE, recursive = TRUE)
+
+purrr::imap(
+  linelist_split,
+  ~ readr::write_csv(
+    .x,
+    file = here(
+      "data",
+      paste0(make.names(.y), ".csv")
+    )
+  )
+)
+#or
+#If you want to preserve the original names as much as possible
+safe_name <- function(x) {
+  x |>
+    stringr::str_replace_all("[^A-Za-z0-9_-]", "_")
+}
+
+purrr::imap(
+  linelist_split,
+  ~ readr::write_csv(
+    .x,
+    here("data", paste0(safe_name(.y), ".csv"))
+  )
+)
+
 
 
 #Custom Functions
+#Load packages for plotting elements from a list
+pacman::p_load (ggpubr)
+#Map over a vector of six hospital names (already created)
+#Use the ggplot function
+#The output is a list containing six ggplot objects
+hospital_names <- unique (linelist$hospital)
 
+my_plots <- map (
+  .x = hospital_names,
+  .f = ~ggplot (data = linelist |> filter (hospital == .x))+
+    geom_histogram (aes (x = date_onset))+
+    labs (title = .x)
+)
+
+#Display the ggplots stored as a list
+ggarrange (plotlist = my_plots, ncol = 2, nrow = 3)
+
+
+
+#Create of fanction
+make_epicurve <- function (hosp_name){
+  ggplot (data = linelist |> filter (hospital == hosp_name)) +
+    geom_histogram (aes (x = date_onset)) +
+    theme_classic ()+
+    labs (title = hosp_name)
+}
+
+#Map the functon that was created
+my_plots <- map (hospital_names, ~make_epicurve (hosp_name = .x))
+#Display the ggplots stored as a list
+ggarrange (plotlist = my_plots, ncol = 2, nrow = 3)
+
+#~15:57
 
 
 #Mapping Functions Across Multiple Columns
