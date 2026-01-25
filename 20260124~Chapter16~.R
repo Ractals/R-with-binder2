@@ -267,8 +267,8 @@ names (linelist_split3)
 
 
 #Export as Excel sheets
-linelist_split5 <- linelist_split3 |>
-  writexl::write_xlsx (path = here ("data", "hospital_linelists.xlse"))
+#linelist_split5 <- linelist_split3 |>
+#  writexl::write_xlsx (path = here ("data", "hospital_linelists.xlse"))
 #[ERROR] workbook_close(): Error creating '/home/jovyan/R-with-binder2/data/hospital_linelists.xlse'. System error = No such file or directory
 #Error: Error in libxlsxwriter: 'Error creating output xlsx file. Usually a permissions error.'
 #In addition: Warning messages:
@@ -277,6 +277,49 @@ linelist_split5 <- linelist_split3 |>
 #2: In writexl::write_xlsx(linelist_split3, path = here("data", "hospital_linelists.xlse")) :
 #  Deduplicating sheet names
 #~20:14
+
+#20260125
+write_xlsx
+linelist_split5 <- linelist_split3 |>
+  writexl::write_xlsx (path = here ("data", "hospital_linelists.xlsx"))
+#Consulting AI to resolve errors
+#The destination directory dose not exise.
+dir.exists(here("data"))
+
+#Method2:Write to a temporary directory (for checking/testing)
+writexl::write_xlsx(
+  linelist_split3,
+  path = tempfile(fileext = ".xlsx")
+)
+
+#Method1:Explicitly create the directory (recommended)
+dir.create(here("data"), showWarnings = FALSE, recursive = TRUE)
+writexl::write_xlsx(
+  linelist_split3,
+  path = here("data", "hospital_linelists.xlsx")
+)
+
+#method +α
+#wite_xlsx () returns nothing (invisible NULL).
+#Therefore:
+  #linelist_split5 does not contain any meaningful value.
+  #write_xlsx () in an output-only (write-only) function.
+#The correct usage is:
+#writexl::write_xlsx (...)
+#writexl::write_xlsx (path = here ("data", "hospital_linelists.xlsx"))
+#> writexl::write_xlsx (path = here ("data", "hospital_linelists.xlsx"))
+#Error in writexl::write_xlsx(path = here("data", "hospital_linelists.xlsx")) : 
+#  argument "x" is missing, with no default
+writexl::write_xlsx(
+  x = linelist_split3,
+  path = here("data", "hospital_linelists.xlsx")
+)
+
+#Let users download files in Binder
+#The workflow is slightly different from local RStudio
+
+
+
 
 
 #Export as CSV files
