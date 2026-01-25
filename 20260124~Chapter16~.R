@@ -317,11 +317,24 @@ writexl::write_xlsx(
 
 #Let users download files in Binder
 #The workflow is slightly different from local RStudio
+#Most simpler workflow
+#Download from the Binder UI
+#In RStudio (on Binder):
+  #Open the Files pane
+  #Open the data/folder
+  #Check hospital_linelists.xlsx
+  #Click More → Export
+#This will download the file to your local machine.
+
+
+#In Jupyter (Classic/Lab):
+ #Open the file browser on the left
+ #Navigate to data/hospital_linelists.xlsx
+ #Right-click → Download
 
 
 
-
-
+#15:32~
 #Export as CSV files
 
 
