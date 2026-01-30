@@ -404,17 +404,89 @@ ggarrange (plotlist = my_plots, ncol = 2, nrow = 3)
 #~15:57
 
 
-#Mapping Functions Across Multiple Columns
 
+#20260130 25:11~
+#Mapping Functions Across Multiple Columns
+#The results are stored as a list
+#select
+t.test_results <- linelist |>
+  select (age, wt_kg, ht_cm, ct_blood, temp) |> #Select only the numeric columns to be mapped
+  map (.f = ~t.test (.x ~ linelist$gender)) #t.test () uses a formula of the form: numeric_value ~ categorical_value
+
+t.test_results
+#Convert columns whose names contain "age" to character variables
+linelist100 <- linelist |>
+  mutate (across (.cols = contains ("age"), .fns = as.character))
+linelist100
+
+
+
+#Extract from a list
+
+names (t.test_results)
+
+#Identify elements by name or by position
+t.test_results[[1]] #Identify the first element by position
+
+t.test_results [[1]]["p.value"] #Return the element named "p.value" from the first element
+
+#pluck ()
+t.test_results |>
+  pluck ("age") #Alternatively, you can use pluck (1)
+
+
+t.test_results |>
+  pluck ("age", "p.value")
+
+t.test_results |>
+  map (pluck, "p.value") #Return all p-values contained in the list
+
+t.test_results |>
+  map_dbl ("p.value") #Return all p-values as a named numeric vector
 
 
 #Converting Lists to Data Frames
+#t.test_results |> {
+#  tibble (
+#  variables = names (.),
+#  p = map_dbl (., "p.value"))
+#}
+t.test_results %>% {
+  tibble (
+    variables = names (.),
+    p = map_dbl (., "p.value"))
+}
+
+#This time, we will further add columns fir the mean values of each group (male and female).
+
+t.test_results %>%
+  {tibble(variables = names (.),
+          p = map_dbl (., "p.value"),
+          means = map(., "estimate"))}
 
 
+#??unnest_wider
+install.packages ("tidyr")
+library (tidyr)
+t.test_results %>%
+  {tibble (
+    variables = names (.),
+    p = map_dbl (., "p.value"),
+    means = map (., "estimate")
+  )} %>%
+  unnest_wider (names)
+
+t.test_results %>% 
+  {tibble(
+    variables = names(.),
+    p = map_dbl(., "p.value"),
+    means = map(., "estimate")
+  )} %>% 
+  unnest_wider(means)
+#Forsome reason, this does not work with base R's "|>", but it does work when using purrr's "%>%".
+#~25:47
 
 #Dropping, Keeping, and Compaction Lists
-
-
 
 #16.4 The apply Family of Functions
 #16.5 References
