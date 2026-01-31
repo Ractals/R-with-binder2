@@ -103,10 +103,49 @@ linelist4
 
 
 #This is a cross-tabulation table with row totals and row percentages.
-
-
 linelist5 <- linelist |>
-  tabyl (age_cat, gender) |>                 #
-  adorn_totals (where = "row") |>            #
-  adorn_percentages (denominator = "row") |> #
-  adorn_pct_formatting (digits = 1)          #
+  tabyl (age_cat, gender) |>                 # Counts by age and sex
+  adorn_totals (where = "row") |>            # Add row totals
+  adorn_percentages (denominator = "row") |> # Convert counts to proportions
+  adorn_pct_formatting (digits = 1)          # Convert proportions to percentages
+linelist5
+
+
+#THis is a cross-tabulation table adjusted to display both counts and percentages.
+linelist6 <- linelist |>                     # Case line list
+  tabyl (age_cat, gender) |>                 # Cross-tabulation of counts
+  adorn_totals (where = "row") |>            # Add row totals
+  adorn_percentages (denominator = "col") |> # Conbert to proportions
+  adorn_pct_formatting () |>                 # Convert to percetages
+  adorn_ns (position = "front") |>           # hange the display forat to "count (percent)"
+  adorn_title (                              # Adjust the title
+    row_name = "Age Category",
+    col_name = "Gender"
+  )
+linelist6
+
+
+
+
+
+#Output from tabyl ()
+install.packages ("flextable")
+library (flextable)
+linelist7 <- lienlist |>
+  tabyl (age_cat, gender) |>
+  adorn_totals (where = "col") |>
+  adorn_perdentages (denominator = "col") |>
+  adorn_pct_formatting () |>
+  adorn_ns (position = "front") |>
+  adorn_title (
+    row_name = "Age Category",
+    col_name = "Gender",
+    placement = "combined") |> # Required for exporting as a image
+  flextable::flextable () |> # Convert to a clean, publication-read image
+  flextable::autofit () # Apply formatting row by row
+linelist7
+
+
+#Use with other tables
+# Functions from the dplyr package
+# Functions from the janitor package
