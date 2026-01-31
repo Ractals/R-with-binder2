@@ -153,22 +153,45 @@ linelist6
 #  flextable::autofit () # Apply formatting row by row
 #linelist7
 
-linelist7 <- lienlist |>
+#install.packages ("janitor")
+#library (janitor)
+#install.packages ("gt")
+#library (gt)
+required_pkgs <- c("janitor", "gt")
+new_pkgs <- required_pkgs[!required_pkgs %in% installed.packages()[,"Package"]]
+if (length(new_pkgs)) install.packages(new_pkgs)
+
+library(janitor)
+library(gt)
+linelist7_1 <- linelist |>
   tabyl (age_cat, gender) |>
   adorn_totals (where = "col") |>
-  adorn_perdentages (denominator = "col") |>
+  adorn_percentages (denominator = "col") |>
   adorn_pct_formatting () |>
   adorn_ns (position = "front") |>
-  adorn_title (
-    row_name = "Age Category",
-    col_name = "Gender",
-    placement = "combined") |> # Required for exporting as a image
-  flextable::flextable () |> # Convert to a clean, publication-read image
-  flextable::autofit () # Apply formatting row by row
-linelist7
+  gt ()
+linelist7_1
+
+install.packages ("knitr")
+library (knitr)
+linelist7_2 <- linelist |>
+  tabyl (age_cat, gender) |>
+  adorn_totals (where = "col") |>
+  adorn_percentages (denominator = "col") |>
+  adorn_pct_formatting () |>
+  adorn_ns (position = "front")
+kable (linelist7_2)
 
 
 
+install.packages ("reactable")
+library (reactable)
+reactable (linelist7_2)
+
+
+#??count
+#install.packages ("dplyr")
+library (dplyr)
 #Use with other tables
 linelist8 <- linelist |>
   count (hospital) |> # Functions from the dplyr package
@@ -178,6 +201,18 @@ linelist8
 
 
 #Story of tabyl
+#linelist9 <- linelist |>
+#  tabyl (age_cat, gender) |>
+#  adorn_percentages (denominator = "col") |>
+#  adorn_pct_formatting () |>
+#  adorn_ns (position = "front") |>
+#  adorn_title (
+#    row_name = "Age Category",
+#    col_name = "Gender",
+#    placement = "combined") |>
+#  flextable::flextable () |>
+#  flextable::autofit () |>
+#  flextable::fave_sa_docx (path = "tabyl.docx")
 linelist9 <- linelist |>
   tabyl (age_cat, gender) |>
   adorn_percentages (denominator = "col") |>
@@ -187,9 +222,8 @@ linelist9 <- linelist |>
     row_name = "Age Category",
     col_name = "Gender",
     placement = "combined") |>
-  flextable::flextable () |>
-  flextable::autofit () |>
-  flextable::fave_sa_docx (path = "tabyl.docx")
+  gt ()
+linelist9
 
 
 #statistics
