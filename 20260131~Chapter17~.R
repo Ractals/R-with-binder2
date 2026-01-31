@@ -131,6 +131,7 @@ linelist6
 #Output from tabyl ()
 install.packages ("flextable")
 library (flextable)
+flextable
 linelist7 <- lienlist |>
   tabyl (age_cat, gender) |>
   adorn_totals (where = "col") |>
@@ -146,6 +147,44 @@ linelist7 <- lienlist |>
 linelist7
 
 
+
+
 #Use with other tables
-# Functions from the dplyr package
-# Functions from the janitor package
+linelist8 <- linelist |>
+  count (hospital) |> # Functions from the dplyr package
+  adorn_totals ()     # Functions from the janitor package
+linelist8
+
+
+
+#Story of tabyl
+linelist9 <- linelist |>
+  tabyl (age_cat, gender) |>
+  adorn_percentages (denominator = "col") |>
+  adorn_pct_formatting () |>
+  adorn_ns (position = "front") |>
+  adorn_title (
+    row_name = "Age Category",
+    col_name = "Gender",
+    placement = "combined") |>
+  flextable::flextable () |>
+  flextable::autofit () |>
+  flextable::fave_sa_docx (path = "tabyl.docx")
+
+
+#statistics
+age_by_outcome <- linelist |>
+  tabyl (age_cat, outcome, show_na = F)
+chisq.test (age_by_outcome)
+
+#Others hint
+
+
+#~15:35
+#17.4 dplyr packages
+
+
+
+
+
+
