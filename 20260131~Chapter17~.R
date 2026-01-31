@@ -129,9 +129,30 @@ linelist6
 
 
 #Output from tabyl ()
-install.packages ("flextable")
-library (flextable)
-flextable
+#install.packages ("flextable")
+#library (flextable)
+#"flextable" %in% rownames(installed.packages())
+#install.packages(
+#  "flextable",
+#  dependencies = TRUE
+#)
+#"flextable" %in% rownames(installed.packages())
+#library (flextable)
+#flextable
+#linelist7 <- lienlist |>
+#  tabyl (age_cat, gender) |>
+#  adorn_totals (where = "col") |>
+#  adorn_perdentages (denominator = "col") |>
+#  adorn_pct_formatting () |>
+#  adorn_ns (position = "front") |>
+#  adorn_title (
+#    row_name = "Age Category",
+#    col_name = "Gender",
+#    placement = "combined") |> # Required for exporting as a image
+#  flextable::flextable () |> # Convert to a clean, publication-read image
+#  flextable::autofit () # Apply formatting row by row
+#linelist7
+
 linelist7 <- lienlist |>
   tabyl (age_cat, gender) |>
   adorn_totals (where = "col") |>
@@ -145,7 +166,6 @@ linelist7 <- lienlist |>
   flextable::flextable () |> # Convert to a clean, publication-read image
   flextable::autofit () # Apply formatting row by row
 linelist7
-
 
 
 
