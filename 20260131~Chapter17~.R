@@ -157,6 +157,9 @@ linelist6
 #library (janitor)
 #install.packages ("gt")
 #library (gt)
+
+##################################################################################
+#Replace the above logic with an AI-recommended approach that works in Binder.
 required_pkgs <- c("janitor", "gt")
 new_pkgs <- required_pkgs[!required_pkgs %in% installed.packages()[,"Package"]]
 if (length(new_pkgs)) install.packages(new_pkgs)
@@ -187,6 +190,12 @@ kable (linelist7_2)
 install.packages ("reactable")
 library (reactable)
 reactable (linelist7_2)
+##################################################################################
+
+
+
+
+
 
 
 #??count
@@ -200,7 +209,7 @@ linelist8
 
 
 
-#Story of tabyl
+#Saving tabyl
 #linelist9 <- linelist |>
 #  tabyl (age_cat, gender) |>
 #  adorn_percentages (denominator = "col") |>
@@ -210,9 +219,10 @@ linelist8
 #    row_name = "Age Category",
 #    col_name = "Gender",
 #    placement = "combined") |>
-#  flextable::flextable () |>
-#  flextable::autofit () |>
-#  flextable::fave_sa_docx (path = "tabyl.docx")
+#  flextable::flextable () |>                     #Convert to an image
+#  flextable::autofit () |>                       # Confirm that there is only one row
+#  flextable::fave_sa_docx (path = "tabyl.docx")  #Save as a word document using a file path 
+
 linelist9 <- linelist |>
   tabyl (age_cat, gender) |>
   adorn_percentages (denominator = "col") |>
@@ -226,16 +236,29 @@ linelist9 <- linelist |>
 linelist9
 
 
-#statistics
+#Summary Statistics
 age_by_outcome <- linelist |>
   tabyl (age_cat, outcome, show_na = F)
 chisq.test (age_by_outcome)
 
-#Others hint
+#Other tips
 
 
 #~15:35
+
+
+#Every time i use AI, it goes into a waiting state, so i can't get any real work done.
+#23:24~
 #17.4 dplyr packages
+#Obtaining counts
+
+  # Start from linelist
+  # Create a new summary data frame with an n_rows column
+
+
+#If you group the data in advance, you can do even more interesting things.
+  #Group the data by unique values in the age_cat column
+  #Return the number of rows *per group*
 
 
 
