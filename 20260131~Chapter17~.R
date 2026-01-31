@@ -261,7 +261,144 @@ chisq.test (age_by_outcome)
   #Return the number of rows *per group*
 
 
+#The above commands can be shortened by using count ().
+#count () performs the following steps:
+#1.Groups the data by the specified column (s)
+#2.Summarizes them using n() (creating an n column) 
+#3.Ungroups the data
+
+#When counting across tow or more grouping columns, the result is returned in a long format, with counts stored in a n column.
 
 
 
 
+
+
+#Displaying all levels
+
+
+#Proportions
+#To display percentages (%), you can easily do this by wrapping the proportion
+#(note: n / sum (n)) with percent () from the scales package.
+#(Be careful - this converts the result to a character string.)
+
+
+
+ # Group by gender and count (creates an "n" column)
+ # Create column percentages
+
+
+
+ # Start from linelist
+ # Group by outcome
+ # Group by age_cat, count rows, then ungroup age_cat
+ # Calculate percentages - note that the denominator is within each outcome group
+
+
+
+
+#Plotting
+ # Start from linelist
+ # Group and summarize by two columns
+ # Pass th new data frame to ggplot
+ # Greate a bar chart
+ # Map outcome to the x-axis
+ # Map age_cat to fill (color by age category)
+ # Map the count column "n" to bar height
+
+
+
+
+
+
+#Summary statistics
+ # Start from linelist and save as a new object
+ # SUmmarize all calculations by hospital
+ # Obtain summary statistics for the following columns
+ # Number of rows per group
+ # Maximum delay in days
+ # Mean delay in days (rounded)
+ # Standard deviation of delay in days (rounded)
+ # Number of rows with delay ≥ 3 days
+ # Convert the ≥ 3-day delay count column to percentages
+
+#Output
+
+
+
+
+
+
+
+#Conditional statistics
+
+
+#Glueing
+
+ # Combine and format values
+ # Remove the two old columns
+ # Add a total column
+
+
+
+
+#Percentiles
+
+#Obtain default age percentiles (0%, 25%, 50%, 75%, 100%)
+
+#Obtain manually specified age percentiles (5%, 50%, 75%, 98%)
+
+#Obtain manually specified age percentiles (5%, 50%, 75%, 98%)
+
+
+
+
+#Combineing summarized data
+
+
+#across (): multiple columns
+
+ # Columns
+ # Function
+ # Additional arguments
+
+
+ # Columns
+ # Multiple functions
+ # Additional arguments
+
+
+
+#Below are the tidyselect helperfunctions that can be supplied to .cols = when selecting columns:
+#・everything () - all remaining columns not otherwise specified
+#・last_col () - the last column
+#・where () - select columns for which a function returns TRUE
+#・starts_with () - columns that start wotj a prefix (e.g.,starts_with (#date"))
+#・ends_with () - columns that end with a suffix (e.g., ends_with ("_end"))
+#・contains () - columns containing a string (e.g., contains ("time"))
+#・matches () - apply a regular expression (e.g., matches ("[pt]al"))
+#・num_range () - numeric ranges in column names
+#・any_of () - matches columns by name; usful when some columns may not exist 
+#(e.g., any_o f(c ("date_onset", "date_death", "cardiac_arrest")))
+
+#For example, to return the mean of all numeric columns, use where () and specify
+#the function as.numeric () (without parentheses).
+#All of this is done inside the across () command.
+
+ # All numeric columns in the data frame
+
+
+
+#Pivoting to wide format
+ # Start from linelist
+ # Group by outcome
+ # Group by age_cat, count rows, then ungroup age_cat
+ #Calculate percentages - note that the denominator is within each outcome group
+
+
+ # Keep only counts for simplicity
+
+
+
+# Summing rows
+#Use adorn_totals () from the janitor packages.
