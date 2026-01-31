@@ -402,3 +402,167 @@ chisq.test (age_by_outcome)
 
 # Summing rows
 #Use adorn_totals () from the janitor packages.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#Counts and Percentages Within Groups
+ # 
+ #
+ #
+
+ #
+ #
+ #
+ #
+
+
+
+
+ # 
+ #
+ #
+
+ #
+ #
+ #
+ #
+
+
+#Summarising Total Data
+#Perform summarise () on the "total" data first,
+#then combine it back using bind_rows ().
+
+
+
+
+
+
+
+
+#Grouped SUmmary by Hospital and Outcome
+ # 
+ # 
+ # 
+ # 
+ # 
+ # 
+ # 
+
+
+
+
+
+
+#SUmmary by outcome only
+ # 
+ # 
+ # 
+
+
+
+
+#Wide Transformation and Formatting
+ # 
+ # 
+ # 
+ # 
+ # 
+ # 
+ # 
+ # 
+ # 
+ # 
+ # 
+ # 
+
+
+
+
+#17.5 gtsummary Package
+#Summary Tables
+ # 
+ # 
+
+
+
+
+#Customisation
+ # 
+ # 
+ # 
+
+
+
+
+
+ # 
+ # 
+ # 
+ # 
+ # 
+ # 
+ # 
+ # 
+
+
+#Handling Missing Values
+#Specify how missing values should by displayed.
+
+
+#Display Multiple Rows for Continuous Variables
+ # 
+ # 
+ # 
+
+
+
+ # 
+ # 
+ # 
+
+
+
+#17.5 Base R
+ # 
+ # 
+
+
+
+#Proportions 
+ # 
+ # 
+
+
+
+#Totals 
+
+
+#Convert to a Data Frame
+
+
+
+#17.5
+#References
+ # 
+ #  
+ # 
+
+ # 
+ # 
+ # 
+ # 
