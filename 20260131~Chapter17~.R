@@ -74,3 +74,39 @@ linelist3
 linelist3 <- linelist |>
   tabyl (age_cat, gender)
 linelist3
+
+#processing a tabyl table
+#Function                 Description
+#adorn_totals ()          Add totals (use where = "row", "col", or "both")
+#                         Specify name = "Total" to label the totals.
+
+#aborn_percentage ()      Convert counts to proportions by setting denominator =
+#                         "row", "col", or "all"
+
+#adorn_pec_formatting ()  Format proportings as percetages. Use digits = to set the number of 
+#                         decimal places. To remove th "%" sign, set affix_sign = FALSE.
+
+#adorn_rounding ()        Round proportions by specifying digits = for the numger of decimal
+#                         places. To round percentages, use adorn_pct_formatting () with digita = .
+
+#adorn_ns ()              Add counts to a table of proportions or percentages. To display counts in
+#                         parentheses after percentages, set position = "rear". To display 
+#                         percentages in parentheses after counts, set position = "front".
+#
+
+#adorn_title ()           Add labels using the row_name = and/or col_name = arguments.
+
+linelist4 <- linelist |>  # Case line list
+  tabyl (age_cat) |>      # Create a ta le of counts and proportions by age category
+  adorn_pct_formatting () # Convert proportions to percentages
+linelist4
+
+
+#This is a cross-tabulation table with row totals and row percentages.
+
+
+linelist5 <- linelist |>
+  tabyl (age_cat, gender) |>                 #
+  adorn_totals (where = "row") |>            #
+  adorn_percentages (denominator = "row") |> #
+  adorn_pct_formatting (digits = 1)          #
