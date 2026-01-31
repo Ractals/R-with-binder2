@@ -249,6 +249,10 @@ chisq.test (age_by_outcome)
 
 #Every time i use AI, it goes into a waiting state, so i can't get any real work done.
 #23:24~
+#Since there is a high likelihood that the connection will be slow again tomorrow, 
+#please provide the remaining section headings of Chaper17, or the English versions of the comments.
+#and Replace functions that cannot be executed on Binder with AI-recommended logic.
+#~25:27
 #17.4 dplyr packages
 #Obtaining counts
 
@@ -421,26 +425,26 @@ chisq.test (age_by_outcome)
 
 
 #Counts and Percentages Within Groups
- # 
- #
- #
+ # Number of rows with non-missing outcomes within each group
+ # Number of rows where outcome is "Death" withineach gorup
+ # Number of rows where outcome is "Recoverd" within each group
 
- #
- #
- #
- #
-
-
+ # Process the total row (sum of each numeric column)
+ # Calculate column-wise proportions
+ # Convert proportions to percentages
+ # Display percentages and counts (show counts first)
 
 
- # 
- #
- #
 
- #
- #
- #
- #
+
+ # Number of rows with non-missing outcomes within eath group
+ # Number of rows where outcome is "Death" within each gorup
+ # Number of rows where outcome is "Recoverd" within eabh gorup
+
+ # Process the total row (sum of each numeric column)
+ # Calculate column-wise proportions
+ # Convert proportions to percentages
+ # Display percentages and cuount (show counts first)
 
 
 #Summarising Total Data
@@ -455,13 +459,12 @@ chisq.test (age_by_outcome)
 
 
 #Grouped SUmmary by Hospital and Outcome
- # 
- # 
- # 
- # 
- # 
- # 
- # 
+ # Revove case with missing outcome or hospital
+ # Group th data
+ # Create new summary columns for metrics of interest
+ # Number of rows per hospital-outcome gorup
+ # Median CT value within each gorup
+ # Output the table
 
 
 
@@ -469,55 +472,55 @@ chisq.test (age_by_outcome)
 
 
 #SUmmary by outcome only
- # 
- # 
- # 
+ # Remove hospital grouping and group only by outcome
+ # Summary statistics by outcome only
+ # Output the table
 
 
 
 
 #Wide Transformation and Formatting
- # 
- # 
- # 
- # 
- # 
- # 
- # 
- # 
- # 
- # 
- # 
- # 
+ # Pivot from ling to wide format
+ # Create new valuues from ct_value and N (count) columns
+ # Use outcome as new column names
+ # Add new columns
+ # Total number of known cases
+ # Percemtage of death case (1 decimal place)
+ # Percentage of recovered cased (1 decimal place)
+ # Reorder columns
+ # First column
+ # Recovered cases column
+ # Recovered cases column
+ # Death cases column
+ # Sprt rows from smallest to largest (place total row at the bottom)
 
 
 
 
 #17.5 gtsummary Package
 #Summary Tables
- # 
- # 
+ # Keep only columns of interest
+ # default summary tabel
 
 
 
 
 #Customisation
- # 
- # 
- # 
+ # Keep only column of interest
+ # Create summary table
+ # Output mean age
 
 
 
 
 
- # 
- # 
- # 
- # 
- # 
- # 
- # 
- # 
+ # keep only of interest
+ # Stratify the entire table by outcome
+ # Compute and format statistics for continuous variables
+ # Compute and format statistics for categorical variables
+ # Specify rounding for continuous variables
+ # Force display of all category levels
+ # Display variable labels
 
 
 #Handling Missing Values
@@ -525,27 +528,27 @@ chisq.test (age_by_outcome)
 
 
 #Display Multiple Rows for Continuous Variables
- # 
- # 
- # 
+ # keep only columns of interest
+ # Create a summary table
+ # Specify that multiple statistics should be displayed
 
 
 
- # 
- # 
- # 
+ # Row 1: mean and SD
+ # Row 2: median and IOR
+ # Row 3: minimum and maximum
 
 
 
 #17.5 Base R
- # 
- # 
+ # Save the table as an object
+ # Output the table
 
 
 
 #Proportions 
- # 
- # 
+ # Calculaterow-wise proportions from the previously defined table
+ # Round the results
 
 
 
@@ -558,11 +561,11 @@ chisq.test (age_by_outcome)
 
 #17.5
 #References
- # 
- #  
- # 
+ # Number of rows with non-missin goutcomes within each group
+ # Number of rows where outcome is "Death" within each group
+ # Number of rows where outcome is "Recoverd" within each group
 
- # 
- # 
- # 
- # 
+ # Process the total row (sum of each numeric column)
+ # Calculate column-wise proprotions
+ # Convert proportions to percentages
+ # Display percentages and counts (show counts first)
