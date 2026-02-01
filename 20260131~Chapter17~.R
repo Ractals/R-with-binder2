@@ -632,40 +632,83 @@ table_long2
 
 
 
-#~16:30
-
-
-
-
-
-
 
 
 
 #17.5 gtsummary Package
 #Summary Tables
- # Keep only columns of interest
- # default summary tabel
-
-
+linelist25 <- linelist |>
+  select (age_years, gender, outcome, fever, temp, hospital) |> # Keep only columns of interest
+  gtsummary::tbl_summary () # default summary tabel
+linelist25
+#??tbl_summary
 
 
 #Customisation
- # Keep only column of interest
- # Create summary table
- # Output mean age
+linelist26 <- linelist |>
+  select (age_years) |>               # Keep only column of interest
+  gtsummary::tbl_summary (                       # Create summary table
+    statistic = age_years ~ "{mean}") # Output mean age
+linelist26
 
 
 
 
 
- # keep only of interest
- # Stratify the entire table by outcome
- # Compute and format statistics for continuous variables
- # Compute and format statistics for categorical variables
- # Specify rounding for continuous variables
- # Force display of all category levels
- # Display variable labels
+linelist27 <- linelist |>
+  select (age_years) |>                       # Keep only column of interest
+  gtsummary::tbl_summary (                    # Create summary table
+    statistic = age_years ~ "({min}, {max})") # Output min and max age
+linelist27
+
+
+
+
+lienlist28 <- linelist |>
+  select (age_years, gender, outcome, fever, temp, hospital) |> # keep only of interest
+  gtsummary::tbl_summary ( 
+    by = outcome,                    # Stratify the entire table by outcome
+    statistic = list (all_continuous () ~ "{mean} ({sd})", # Compute and format statistics for continuous variables
+                      all_categorical () ~ "{n} / {N} ({p}%)"), #Compute and format statistics for categorical variables
+    digits = all_continuous () ~ 1,  # Specify rounding for continuous variables
+#    type = all_categorical () ~ "categorical",                            # Force display of all category levels
+    label = list (                   # Display variable labels
+      outcome ~ "Outcome",
+      age_years ~ "Age (years)",
+      gender ~ "Gender",
+      temp ~ "Temperature",
+      hospital ~ "Hospital"),
+    missing_text = "Missing"
+  )
+linelist28
+
+type = list(
+  gender ~ "categorical",
+  fever ~ "categorical",
+  hospital ~ "categorical"
+)
+
+lienlist28_2 <- linelist |>
+  select (age_years, gender, outcome, fever, temp, hospital) |> # keep only of interest
+  gtsummary::tbl_summary ( 
+    by = outcome,                    # Stratify the entire table by outcome
+    statistic = list (all_continuous () ~ "{mean} ({sd})", # Compute and format statistics for continuous variables
+                      all_categorical () ~ "{n} / {N} ({p}%)"), #Compute and format statistics for categorical variables
+    digits = all_continuous () ~ 1,  # Specify rounding for continuous variables
+    type = all_categorical () ~ "categorical",                            # Force display of all category levels
+    label = list (                   # Display variable labels
+      outcome ~ "Outcome",
+      age_years ~ "Age (years)",
+      gender ~ "Gender",
+      temp ~ "Temperature",
+      hospital ~ "Hospital"),
+    missing_text = "Missing"
+  )
+linelist28_2
+
+
+
+
 
 
 #Handling Missing Values
