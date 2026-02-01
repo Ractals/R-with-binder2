@@ -740,32 +740,46 @@ linelist29 <- linelist |>
       "{median} ({p25}, {p75})", # Row 2: median and IOR
       "{min}, {max}") # Row 3: minimum and maximum
   )
-linelist2    
+linelist29    
     
-
-
-#~17:24
 
 
 
 #17.5 Base R
- # Save the table as an object
- # Output the table
+
+head (linelist$outcome)
+table (linelist$outcome, useNA = "always")
+
+age_by_outcome <- table (linelist$age_cat, linelist$outcome, useNA = "always") # Save the table as an object
+age_by_outcome # Output the table
 
 
 
 #Proportions 
  # Calculaterow-wise proportions from the previously defined table
  # Round the results
-
+prop.table (age_by_outcome, 1) |> round (2)
 
 
 #Totals 
-
+addmargins (age_by_outcome)
 
 #Convert to a Data Frame
+#table (fct_explicit_na (linelist$age_cat), fct_explicit_na (linelist$outcome)) |>
+#  addmargins () |>
+#  as.data.frame.matrix () |>
+#  tibble::rownames_to_column (var = "Age Category") |>
+#  flextable::flextable ()
+table (forcats::fct_na_value_to_level (linelist$age_cat), 
+       forcats::fct_na_value_to_level (linelist$outcome)) |>
+  stats::addmargins () |>
+  as.data.frame.matrix () |>
+  tibble::rownames_to_column (var = "Age Category") #|>
+#  flextable::flextable ()
 
+#??fct_explicit_na
 
+#??addmargins
 
 #17.5
 #References
