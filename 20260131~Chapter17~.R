@@ -457,18 +457,22 @@ linelist_agg2
 #~14:44
 
 
-
+#15:34~
 #across (): multiple columns
+linelist21 <- linelist |> 
+  group_by (outcome) |> 
+  summarize (across (.cols = c(age_years, temp, wt_kg, ht_cm), # Columns
+                     .fns = mean, # Function
+                     na.rm = T))  # Additional arguments
+linelist21
 
- # Columns
- # Function
- # Additional arguments
 
-
- # Columns
- # Multiple functions
- # Additional arguments
-
+linelist22 <- linelist |>
+  group_by (outcome) |>
+  summarize (across (.cols = c(age_years, temp, wt_kg, ht_cm),  # Columns
+                     .fns = list ("mean" = mean, "sd" = sd), # Multiple functions
+                     na.rm = T)) # Additional arguments
+linelist22
 
 
 #Below are the tidyselect helperfunctions that can be supplied to .cols = when selecting columns:
@@ -486,40 +490,35 @@ linelist_agg2
 #For example, to return the mean of all numeric columns, use where () and specify
 #the function as.numeric () (without parentheses).
 #All of this is done inside the across () command.
-
- # All numeric columns in the data frame
-
+linelist23 <- linelist |>
+  group_by (outcome) |>
+  summarize (across (
+    .cols = where (is.numeric), # All numeric columns in the data frame
+    .fns = mean,
+    na.rm = T))
+linelist23
 
 
 #Pivoting to wide format
- # Start from linelist
- # Group by outcome
- # Group by age_cat, count rows, then ungroup age_cat
- #Calculate percentages - note that the denominator is within each outcome group
+age_by_outcome <- linelist |> # Start from linelist
+  group_by (outcome) |> # Group by outcome
+  count (age_cat) |> # Group by age_cat, count rows, then ungroup age_cat
+  mutate (percent = scales::percent(n/sum(n))) #Calculate percentages - note that the denominator is within each outcome group
+age_by_outcome
 
 
- # Keep only counts for simplicity
+
+age_by_outcome2 <- age_by_outcome |>
+  select (-percent) |> # Keep only counts for simplicity
+  tidyr::pivot_wider (names_from = age_cat, values_from = n)
+age_by_outcome2
+
+#??pivot_wider
 
 
 
 # Summing rows
 #Use adorn_totals () from the janitor packages.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 #Counts and Percentages Within Groups
@@ -535,14 +534,24 @@ linelist_agg2
 
 
 
+
+
+
  # Number of rows with non-missing outcomes within eath group
  # Number of rows where outcome is "Death" within each gorup
  # Number of rows where outcome is "Recoverd" within eabh gorup
+
+
+
 
  # Process the total row (sum of each numeric column)
  # Calculate column-wise proportions
  # Convert proportions to percentages
  # Display percentages and cuount (show counts first)
+
+
+
+
 
 
 #Summarising Total Data
@@ -556,12 +565,14 @@ linelist_agg2
 
 
 
-#Grouped SUmmary by Hospital and Outcome
+#Grouped Summary by Hospital and Outcome
+by_hospital <- linelist |>
  # Revove case with missing outcome or hospital
  # Group th data
  # Create new summary columns for metrics of interest
  # Number of rows per hospital-outcome gorup
  # Median CT value within each gorup
+
  # Output the table
 
 
@@ -569,7 +580,18 @@ linelist_agg2
 
 
 
-#SUmmary by outcome only
+
+
+
+
+
+
+
+
+
+
+#Summary by outcome only
+  totals <- linelist |>
  # Remove hospital grouping and group only by outcome
  # Summary statistics by outcome only
  # Output the table
@@ -577,6 +599,25 @@ linelist_agg2
 
 
 
+
+
+
+
+
+
+
+
+total_long <- 
+
+
+
+
+
+
+
+
+
+table_long |>
 #Wide Transformation and Formatting
  # Pivot from ling to wide format
  # Create new valuues from ct_value and N (count) columns
@@ -591,6 +632,18 @@ linelist_agg2
  # Recovered cases column
  # Death cases column
  # Sprt rows from smallest to largest (place total row at the bottom)
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
