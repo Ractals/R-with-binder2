@@ -184,7 +184,16 @@ linelist7_2 <- linelist |>
   adorn_pct_formatting () |>
   adorn_ns (position = "front")
 kable (linelist7_2)
-
+#??adorn_ns
+#packageVersion("janitor")
+#"adorn_ns" %in% ls("package:janitor")
+linelist7_2 <- linelist |>
+janitor::tabyl(age_cat, gender) |>
+  janitor::adorn_totals(where = "col") |>
+  janitor::adorn_percentages(denominator = "col") |>
+  janitor::adorn_pct_formatting() |>
+  janitor::adorn_ns(position = "front")
+kable (linelist7_2)
 
 
 install.packages ("reactable")
@@ -204,7 +213,7 @@ library (dplyr)
 #Use with other tables
 linelist8 <- linelist |>
   count (hospital) |> # Functions from the dplyr package
-  adorn_totals ()     # Functions from the janitor package
+  janitor::adorn_totals ()     # Functions from the janitor package
 linelist8
 
 
@@ -224,25 +233,23 @@ linelist8
 #  flextable::fave_sa_docx (path = "tabyl.docx")  #Save as a word document using a file path 
 
 linelist9 <- linelist |>
-  tabyl (age_cat, gender) |>
-  adorn_percentages (denominator = "col") |>
-  adorn_pct_formatting () |>
-  adorn_ns (position = "front") |>
-  adorn_title (
+  janitor::tabyl (age_cat, gender) |>
+  janitor::adorn_percentages (denominator = "col") |>
+  janitor::adorn_pct_formatting () |>
+  janitor::adorn_ns (position = "front") |>
+  janitor::adorn_title (
     row_name = "Age Category",
     col_name = "Gender",
     placement = "combined") |>
-  gt ()
+  gt::gt ()
 linelist9
-
 
 #Summary Statistics
 age_by_outcome <- linelist |>
-  tabyl (age_cat, outcome, show_na = F)
-chisq.test (age_by_outcome)
+  janitor::tabyl (age_cat, outcome, show_na = F)
+janitor::chisq.test (age_by_outcome)
 
 #Other tips
-
 
 #~15:35
 
@@ -253,17 +260,20 @@ chisq.test (age_by_outcome)
 #please provide the remaining section headings of Chaper17, or the English versions of the comments.
 #and Replace functions that cannot be executed on Binder with AI-recommended logic.
 #~25:27
+#20260201 12:55~
 #17.4 dplyr packages
 #Obtaining counts
 
-  # Start from linelist
-  # Create a new summary data frame with an n_rows column
+linelist10 <- linelist |>  # Start from linelist
+  summarize (n_rows = n())  # Create a new summary data frame with an n_rows column
+linelist10
 
 
 #If you group the data in advance, you can do even more interesting things.
-  #Group the data by unique values in the age_cat column
-  #Return the number of rows *per group*
-
+linelist11 <- linelist |>
+  group_by (age_cat) |>    #Group the data by unique values in the age_cat column
+  summarize (n_rows = n()) #Return the number of rows *per group*
+linelist11
 
 #The above commands can be shortened by using count ().
 #count () performs the following steps:
@@ -271,8 +281,16 @@ chisq.test (age_by_outcome)
 #2.Summarizes them using n() (creating an n column) 
 #3.Ungroups the data
 
-#When counting across tow or more grouping columns, the result is returned in a long format, with counts stored in a n column.
+linelist12 <- linelist |>
+  count (age_cat)
+linelist12
 
+
+
+#When counting across tow or more grouping columns, the result is returned in a long format, with counts stored in a n column.
+linelist13 <- linelist |>
+  count (age_cat, outcome)
+linelist13
 
 
 
@@ -287,33 +305,31 @@ chisq.test (age_by_outcome)
 #(Be careful - this converts the result to a character string.)
 
 
+age_summary <- linelist |>
+  count (age_cat) |> # Group by gender and count (creates an "n" column)
+  mutate (        # Create column percentages
+    percent = scales::percent (n / sum (n)))
+#output
+age_summary
 
- # Group by gender and count (creates an "n" column)
- # Create column percentages
-
-
-
- # Start from linelist
- # Group by outcome
- # Group by age_cat, count rows, then ungroup age_cat
- # Calculate percentages - note that the denominator is within each outcome group
-
+age_by_outcome <- linelist |>  # Start from linelist
+  group_by (outcome) |> # Group by outcome
+  count (age_cat) |> # Group by age_cat, count rows, then ungroup age_cat
+  mutate (percent = scales::percent (n / sum (n))) # Calculate percentages - note that the denominator is within each outcome group
+age_by_outcome
 
 
 
 #Plotting
- # Start from linelist
- # Group and summarize by two columns
- # Pass th new data frame to ggplot
- # Greate a bar chart
- # Map outcome to the x-axis
- # Map age_cat to fill (color by age category)
- # Map the count column "n" to bar height
-
-
-
-
-
+linelist14 <- linelist |> # Start from linelist
+  count (age_cat, outcome) |>  # Group and summarize by two columns
+  ggplot2::ggplot () + # Pass th new data frame to ggplot
+    ggplot2::geom_col ( # Greate a bar chart
+      mapping = ggplot2::aes ( # Map outcome to the x-axis
+        x = outcome, # Map age_cat to fill (color by age category)
+        fill = age_cat, # Map the count column "n" to bar height
+        y = n))
+linelist14 
 
 #Summary statistics
  # Start from linelist and save as a new object
