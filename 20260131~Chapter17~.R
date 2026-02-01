@@ -522,32 +522,24 @@ age_by_outcome2
 
 
 #Counts and Percentages Within Groups
- # Number of rows with non-missing outcomes within each group
- # Number of rows where outcome is "Death" withineach gorup
- # Number of rows where outcome is "Recoverd" within each group
-
- # Process the total row (sum of each numeric column)
- # Calculate column-wise proportions
- # Convert proportions to percentages
- # Display percentages and counts (show counts first)
-
-
-
-
-
-
-
- # Number of rows with non-missing outcomes within eath group
- # Number of rows where outcome is "Death" within each gorup
- # Number of rows where outcome is "Recoverd" within eabh gorup
+linelist24 <- linelist |>
+  group_by (gender) |>
+  summarize (
+    known_outcome = sum (!is.na (outcome)),  # Number of rows with non-missing outcomes within each group
+    n_death = sum (outcome == "Death", na.rm = T), # Number of rows where outcome is "Death" within each gorup
+    n_recover = sum (outcome == "Recover", na.rm = T), # Number of rows where outcome is "Recoverd" within each group
+  ) |>
+  janitor::adorn_totals () |> # Process the total row (sum of each numeric column)
+  janitor::adorn_percentages ("col") |> # Calculate column-wise proportions
+  janitor::adorn_pct_formatting () |> # Convert proportions to percentages
+  janitor::adorn_ns (position = "front") # Display percentages and counts (show counts first)
+linelist24
 
 
 
 
- # Process the total row (sum of each numeric column)
- # Calculate column-wise proportions
- # Convert proportions to percentages
- # Display percentages and cuount (show counts first)
+
+
 
 
 
@@ -560,21 +552,16 @@ age_by_outcome2
 
 
 
-
-
-
-
-
 #Grouped Summary by Hospital and Outcome
 by_hospital <- linelist |>
- # Revove case with missing outcome or hospital
- # Group th data
- # Create new summary columns for metrics of interest
- # Number of rows per hospital-outcome gorup
- # Median CT value within each gorup
+  filter (!is.na (outcome) & hospital != "Missing") |>  # Revove case with missing outcome or hospital
+  group_by (hospital, outcome) |> # Group th data
+  summarise ( # Create new summary columns for metrics of interest
+    N = n(), # Number of rows per hospital-outcome gorup
+    ct_value = median (ct_blood, na.rm = T)) # Median CT value within each gorup
 
  # Output the table
-
+by_hospital
 
 
 
@@ -592,9 +579,13 @@ by_hospital <- linelist |>
 
 #Summary by outcome only
   totals <- linelist |>
- # Remove hospital grouping and group only by outcome
- # Summary statistics by outcome only
- # Output the table
+    filter (!is.na (outcome) & hospital != "Missing") |>
+    group_by (outcome) |> # Remove hospital grouping and group only by outcome
+    summarize (
+      N = n(),             # Summary statistics by outcome only
+      ct_value = median (ct_blood, na.rm = T))
+
+totals  # Output the table
 
 
 
@@ -607,7 +598,13 @@ by_hospital <- linelist |>
 
 
 
-total_long <- 
+table_long <- bind_rows (by_hospital, totals) |>
+#  mutate (hospital =  dbplyr::replace_na (hospital, "Total"))
+#  mutate (hospital =  dtplyr::replace_na (hospital, "Total"))
+#  mutate (hospital =  stringi::replace_na (hospital, "Total"))
+  mutate (hospital =  tidyr::replace_na (hospital, "Total"))
+table_long
+#??replace_na
 
 
 
@@ -615,30 +612,27 @@ total_long <-
 
 
 
-
-
-table_long |>
+table_long2 <- table_long |>
 #Wide Transformation and Formatting
- # Pivot from ling to wide format
- # Create new valuues from ct_value and N (count) columns
- # Use outcome as new column names
- # Add new columns
- # Total number of known cases
- # Percemtage of death case (1 decimal place)
- # Percentage of recovered cased (1 decimal place)
- # Reorder columns
- # First column
- # Recovered cases column
- # Recovered cases column
- # Death cases column
- # Sprt rows from smallest to largest (place total row at the bottom)
+  mutate (hospital = tidyr::replace_na (hospital, "Total")) |>
+  tidyr::pivot_wider ( # Pivot from ling to wide format
+    values_from = c(ct_value, N), # Create new valuues from ct_value and N (count) columns
+    names_from = outcome) |>  # Use outcome as new column names
+  mutate ( # Add new columns
+    N_Known = N_Death + N_Recover, # Total number of known cases
+    Pct_Death = scales::percent (N_Death / N_Known, .1), # Percemtage of death case (1 decimal place)
+    Pct_Recover= scales::percent (N_Recover / N_Known, .1)) |> # Percentage of recovered cased (1 decimal place)
+  select ( # Reorder column
+    hospital, N_Known, # First column
+    N_Recover, Pct_Recover, ct_value_Recover, # Recovered cases column
+    N_Death, Pct_Death, ct_value_Death) |>   # Death cases column
+  arrange (N_Known) # Sprt rows from smallest to largest (place total row at the bottom)
+table_long2
 
 
 
 
-
-
-
+#~16:30
 
 
 
