@@ -688,7 +688,7 @@ type = list(
   hospital ~ "categorical"
 )
 
-lienlist28_2 <- linelist |>
+linelist28_2 <- linelist |>
   select (age_years, gender, outcome, fever, temp, hospital) |> # keep only of interest
   gtsummary::tbl_summary ( 
     by = outcome,                    # Stratify the entire table by outcome
@@ -702,29 +702,49 @@ lienlist28_2 <- linelist |>
       gender ~ "Gender",
       temp ~ "Temperature",
       hospital ~ "Hospital"),
-    missing_text = "Missing"
+    missing_text = "Missing" #Handling Missing Values
   )
 linelist28_2
 
 
+linelist28_3 <- linelist |>
+  select (age_years, gender, outcome, fever, temp, hospital) |> # keep only of interest
+  gtsummary::tbl_summary ( 
+    by = outcome,                    # Stratify the entire table by outcome
+    statistic = list (gtsummary::all_continuous () ~ "{mean} ({sd})", # Compute and format statistics for continuous variables
+                      gtsummary::all_categorical () ~ "{n} / {N} ({p}%)"), #Compute and format statistics for categorical variables
+    digits = gtsummary::all_continuous () ~ 1,  # Specify rounding for continuous variables
+    type = gtsummary::all_categorical () ~ "categorical",                            # Force display of all category levels
+    label = list (                   # Display variable labels
+      outcome ~ "Outcome",
+      age_years ~ "Age (years)",
+      gender ~ "Gender",
+      temp ~ "Temperature",
+      hospital ~ "Hospital"),
+    missing_text = "Missing" #Handling Missing Values
+  )
+linelist28_3
 
 
 
 
-#Handling Missing Values
-#Specify how missing values should by displayed.
 
 
 #Display Multiple Rows for Continuous Variables
- # keep only columns of interest
- # Create a summary table
- # Specify that multiple statistics should be displayed
+linelist29 <- linelist |> 
+  select (age_years, temp) |> # keep only columns of interest
+  gtsummary::tbl_summary (    # Create a summary table
+    type = gtsummary::all_continuous () ~ "continuous2",    # Specify that multiple statistics should be displayed
+    statistic = gtsummary::all_continuous () ~ c(
+      "{mean} ({sd})", # Row 1: mean and SD
+      "{median} ({p25}, {p75})", # Row 2: median and IOR
+      "{min}, {max}") # Row 3: minimum and maximum
+  )
+linelist2    
+    
 
 
-
- # Row 1: mean and SD
- # Row 2: median and IOR
- # Row 3: minimum and maximum
+#~17:24
 
 
 
