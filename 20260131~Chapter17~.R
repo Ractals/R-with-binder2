@@ -332,17 +332,17 @@ linelist14 <- linelist |> # Start from linelist
 linelist14 
 
 #Summary statistics
- # Start from linelist and save as a new object
- # SUmmarize all calculations by hospital
- # Obtain summary statistics for the following columns
- # Number of rows per group
- # Maximum delay in days
- # Mean delay in days (rounded)
- # Standard deviation of delay in days (rounded)
- # Number of rows with delay ≥ 3 days
- # Convert the ≥ 3-day delay count column to percentages
-
+summarize_table <- linelist |> # Start from linelist and save as a new object
+  group_by (hospital) |> # SUmmarize all calculations by hospital
+  summarize ( # Obtain summary statistics for the following columns
+    cases = n(),  # Number of rows per group
+    delay_max = max (days_onset_hosp, na.rm = T), # Maximum delay in days
+    delay_mean = round(mean (days_onset_hosp, na.rm = T), digits = 1), # Mean delay in days (rounded)
+    delay_sd = round (sd (days_onset_hosp, na.rm = T), digits = 1), # Standard deviation of delay in days (rounded)
+    delay_3 = sum (days_onset_hosp >= 3, na.rm = T), # Number of rows with delay ≥ 3 days
+    pct_delay_3 = scales::percent (delay_3/cases)) # Convert the ≥ 3-day delay count column to percentages
 #Output
+summarize_table
 
 
 
@@ -351,13 +351,36 @@ linelist14
 
 
 #Conditional statistics
+linelist15 <- linelist |>
+  group_by (hospital) |>
+  summarize (
+    max_temp_fvr = max (temp [fever == "yes"], na.rm =T),
+    max_temp_no = max (temp  [fever == "no"], na.rm = T)
+  )
+linelist15
+
+
+
 
 
 #Glueing
+summarize_table2 <- summarize_table |>
+  mutate (delay = stringr::str_glue ("{delay_mean} ({delay_sd})")) |>  # Combine and format values
+  select (-c(delay_mean, delay_sd)) |>                        # Remove the two old columns
+  janitor::adorn_totals (where = "row") |>                    # Add a total column
+  select (                                                    #Specify column order and names
+    "Hospital Name" = hospital,
+    "Cases" = cases,
+    "Max delay" = delay_max,
+    "Mean (sd)" = delay, #Delay 3+ days" = delay_3,
+    "% delay_3+ days" = pct_delay_3
+  )
+summarize_table2
 
- # Combine and format values
- # Remove the two old columns
- # Add a total column
+
+#??str_glue
+
+
 
 
 
@@ -365,15 +388,74 @@ linelist14
 #Percentiles
 
 #Obtain default age percentiles (0%, 25%, 50%, 75%, 100%)
+linelist16 <- linelist |>
+  summarize (age_percentiles = quantile (age_years, na.rm = T))
+linelist16
+
 
 #Obtain manually specified age percentiles (5%, 50%, 75%, 98%)
+linelist17 <- linelist |>
+  summarize (
+    age_percentiles = quantile (
+      age_years,
+      probs = c (.05, 0.5, 0.75, 0.98),
+      na.rm = T
+    )
+  )
+linelist17
+
+
 
 #Obtain manually specified age percentiles (5%, 50%, 75%, 98%)
+linelist18 <- linelist |>
+  group_by (hospital) |>
+  summarize (
+    p05 = quantile (age_years, probs = .05, na.rm = T),
+    p50 = quantile (age_years, probs = .5, na.rm = T),
+    p75 = quantile (age_years, probs = .75, na.rm = T),
+    p98 = quantile (age_years, probs = .98, na.rm = T)
+  )
+linelist18
 
+
+
+
+
+
+
+
+lienlist19 <- linelist |>
+  group_by (hospital) |>
+#  rstatix::get_summarize_stats (age, type = "quantile")
+  rstatix::get_summary_stats (age, type = "quantile")
+lienlist19
+
+
+linelist20 <- linelist |>
+  rstatix::get_summary_stats (age, type = "quantile")
+linelist20
 
 
 
 #Combineing summarized data
+linelist_agg <- linelist |>
+  tidyr::drop_na (gender, outcome) |>
+  count (outcome, gender)
+linelist_agg
+#??drop_na
+
+
+linelist_agg2 <- linelist_agg |>
+  group_by (outcome) |>
+  summarize (
+    total_cases = sum (n, na.rm = T),
+    male_cases = sum (n [gender == "m"], na.rm = T),
+    femal_cases = sum (n[gender == "f"], na.rm = T)
+  )
+linelist_agg2
+
+#~14:44
+
 
 
 #across (): multiple columns
