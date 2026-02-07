@@ -72,4 +72,61 @@ class (char_vec4)
 
 
 #9.6 Factor
+factor_vec1 <- c("Excellent/Great", "Excellent/Great", "Doing okay", "Very fine", "Feeling good")
+factor_vec1
+class (factor_vec1)
 
+factor_vec2 <- factor (factor_vec1, ordered = TRUE,
+                       levels = c("Excellent/Great", "Doing okay", "Very fine", "Feeling good"))
+class (factor_vec2)
+
+factor_vec2[2] <- "Extreme fine"
+factor_vec2
+
+factor_vec2 [2] <- "Feeling good"
+factor_vec2
+
+factor_vec3 <- factor (factor_vec1, levels = c("Doing okay", "Feeling good", "Very fine", "Excellent/Great"))
+factor_vec3
+class (factor_vec3)
+
+zaisei_df <- data.frame (
+  ID = c(1, 2, 3, 4, 5),
+  Pref = c("Hokkaido", "Tokyo", "Aichi", "Osaka", "Fukuoka"),
+  Zaisei = c(0.44396, 1.19157, 0.92840, .78683, .64322)
+  
+)
+zaisei_df
+
+barplot (height = zaisei_df$Zaisei,
+         names.arg = zaisei_df$Pref,
+         xlab = "Prefecture",
+         ylab = "Zaisei")
+
+zaisei_df$Pref <- factor(zaisei_df$Pref, 
+                         levels = c("Hokkaido", "Tokyo", "Aichi", "Osaka", "Fukuoka"))
+barplot (height = zaisei_df$Zaisei,
+         names.arg = zaisei_df$Pref,
+         xlab = "Prefecture",
+         ylab = "Zaisei")
+#??aes
+??labs
+ggplot2::ggplot (zaisei_df, ggplot2::aes (x = Pref, y = Zaisei))+
+  ggplot2::geom_col ()+
+  ggplot2::labs (
+    x = "Prefecture",
+    y = "Zaisei",
+    title = "Zaisei by Prefecture"
+  )
+zaisei_df$Pref <- factor(zaisei_df$Pref, 
+                         levels = c("Hokkaido", "Tokyo", "Aichi", "Osaka", "Fukuoka"))
+ggplot2::ggplot (zaisei_df, ggplot2::aes (x = Pref, y = Zaisei))+
+  ggplot2::geom_col ()+
+  ggplot2::labs (
+    x = "Prefecture",
+    y = "Zaisei",
+    title = "Zaisei by Prefecture"
+  )
+#Since no logic was provided, i tried to use AI to evaluate the effect of applying a factor by creatin g histograms before and after factor application using base R and ggplot2, but it didn't work very well
+
+#~17:14
