@@ -109,24 +109,94 @@ barplot (height = zaisei_df$Zaisei,
          names.arg = zaisei_df$Pref,
          xlab = "Prefecture",
          ylab = "Zaisei")
+
+
+#Since no logic was provided, i tried to use AI to evaluate the effect of applying a factor by creatin g histograms before and after factor application using base R, but it didn't work very well
+
+zaisei_df2 <- data.frame (
+  ID = c(1, 2, 3, 4, 5),
+  Pref = c("Hokkaido", "Tokyo", "Aichi", "Osaka", "Fukuoka"),
+  Zaisei = c(0.44396, 1.19157, 0.92840, .78683, .64322)
+  
+)
+zaisei_df2
 #??aes
-??labs
-ggplot2::ggplot (zaisei_df, ggplot2::aes (x = Pref, y = Zaisei))+
+#??labs
+ggplot2::ggplot (zaisei_df2, ggplot2::aes (x = Pref, y = Zaisei))+
   ggplot2::geom_col ()+
   ggplot2::labs (
     x = "Prefecture",
     y = "Zaisei",
     title = "Zaisei by Prefecture"
   )
-zaisei_df$Pref <- factor(zaisei_df$Pref, 
+zaisei_df2$Pref <- factor(zaisei_df2$Pref, 
                          levels = c("Hokkaido", "Tokyo", "Aichi", "Osaka", "Fukuoka"))
-ggplot2::ggplot (zaisei_df, ggplot2::aes (x = Pref, y = Zaisei))+
+ggplot2::ggplot (zaisei_df2, ggplot2::aes (x = Pref, y = Zaisei))+
   ggplot2::geom_col ()+
   ggplot2::labs (
     x = "Prefecture",
     y = "Zaisei",
     title = "Zaisei by Prefecture"
   )
-#Since no logic was provided, i tried to use AI to evaluate the effect of applying a factor by creatin g histograms before and after factor application using base R and ggplot2, but it didn't work very well
 
 #~17:14
+
+#9.7 Data
+#9.7.1 Why dose the Date type exist?
+SongSleep <- data.frame (
+  Date = c("2026-02-07", "2026-02-08", "2026-02-09", "2026-02-10",
+           "2026-02-11", "2026-02-12", "2026-02-13"),
+  Sleep = c(173, 193, 314, 259, 210, 214, 290)
+)
+SongSleep
+
+ggplot2::ggplot (SongSleep, mapping = ggplot2::aes (x = Date, y = Sleep))+
+  ggplot2::geom_point ()+
+  ggplot2::labs (x = "date", y = "times (min)")+
+  ggplot2::theme_gray (base_size = 12)
+
+
+SongSleep$DateD <- as.Date (SongSleep$Date)
+
+SongSleep
+ggplot2::ggplot (SongSleep, mapping = ggplot2::aes (x = DateD, y = Sleep))+
+  ggplot2::geom_point () +
+  ggplot2::labs (x = "DateD", y = "times (min")+
+  ggplot2::theme_gray (base_size = 12)
+
+
+
+
+SongSleep2 <- SongSleep [-3,]
+SongSleep2
+ggplot2::ggplot(SongSleep2, mapping = ggplot2::aes (x= Date, y = Sleep))+
+  ggplot2::geom_point ()+
+  ggplot2::labs (x = "date", y = "times (min)")+
+  ggplot2::theme_gray (base_size = 12)
+
+
+
+ggplot2::ggplot (SongSleep2, mapping = ggplot2::aes (x = DateD, y = Sleep))+
+  ggplot2::geom_point ()+
+  ggplot2::labs (x = "DateD", y = "Time (min)")+
+  ggplot2::theme_gray (base_size = 12)
+
+
+
+
+
+
+SongSleep3 <- SongSleep
+SongSleep3$Sleep[SongSleep$Date == "2026-02-09"] <- NA
+SongSleep3
+
+
+
+ggplot2::ggplot (SongSleep3, mapping = ggplot2::aes (x = Date, y = Sleep))+
+  ggplot2::geom_point ()+
+  ggplot2::labs (x = "Date", y = "time (min)")+
+  ggplot2::theme_bw ()
+
+#~17:52
+#1~
+#9.7.2 How to create a Date object
