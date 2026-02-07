@@ -155,27 +155,32 @@ ggplot2::ggplot (SongSleep, mapping = ggplot2::aes (x = Date, y = Sleep))+
   ggplot2::labs (x = "date", y = "times (min)")+
   ggplot2::theme_gray (base_size = 12)
 
-
+#We convert each value in the Date column to the Date type and store it as DateD in the SoongSleep dataset.
 SongSleep$DateD <- as.Date (SongSleep$Date)
-
 SongSleep
+#When we look at the contents, there does not appear to be much difference.
+#The Date and DateD columns look exactly the same.
+
 ggplot2::ggplot (SongSleep, mapping = ggplot2::aes (x = DateD, y = Sleep))+
   ggplot2::geom_point () +
   ggplot2::labs (x = "DateD", y = "times (min")+
   ggplot2::theme_gray (base_size = 12)
 
 
-
-
+#Suppose that Song accidentally forget to record the data on Feb 9.
+#In other words, let's consider a situation where the third row of the SongSLeep dataset in missing.
 SongSleep2 <- SongSleep [-3,]
 SongSleep2
+#When we look at the contents, they appear as shown below. Boh the Date and DateD columns look the same.
+
+#In this state, we set the x-axis to Date
 ggplot2::ggplot(SongSleep2, mapping = ggplot2::aes (x= Date, y = Sleep))+
   ggplot2::geom_point ()+
   ggplot2::labs (x = "date", y = "times (min)")+
   ggplot2::theme_gray (base_size = 12)
 
 
-
+#Nex in this state, we set the x-axis to DateD
 ggplot2::ggplot (SongSleep2, mapping = ggplot2::aes (x = DateD, y = Sleep))+
   ggplot2::geom_point ()+
   ggplot2::labs (x = "DateD", y = "Time (min)")+
@@ -185,6 +190,11 @@ ggplot2::ggplot (SongSleep2, mapping = ggplot2::aes (x = DateD, y = Sleep))+
 
 
 
+#If the data are not of the Date type, values that are not present in the data will not be shown in the plot.
+#In contrast, when using the Date type, missing days are displayed in the plot even if there are gaps in the data.
+#To reproduce this behavior with a regular character or factor type, 
+#it is necessary to add rows for the missing dates and specify the sleep duration as missing values.
+#For example, in the SongSleep dataset, let's keep the row for the missing dates and set only the sleep duration to missing values
 
 SongSleep3 <- SongSleep
 SongSleep3$Sleep[SongSleep$Date == "2026-02-09"] <- NA
@@ -198,5 +208,53 @@ ggplot2::ggplot (SongSleep3, mapping = ggplot2::aes (x = Date, y = Sleep))+
   ggplot2::theme_bw ()
 
 #~17:52
-#1~
+#18:13~
 #9.7.2 How to create a Date object
+  #1.character type to Date type
+  #2.numeric type to Date type
+Date1 <- "2026-02-07"
+Date2 <- "2026-2-07"
+Date3 <- "2026/2/7"
+Date4 <- "26/02/07"
+Date5 <- "20260207"
+Date6 <- "2026 02 07"
+Date7 <- "2026.02.07"
+as.Date (Date1)
+as.Date (Date2)
+as.Date (Date3)
+as.Date (Date4)
+as.Date (Date4, "%y/%m/%d")
+#as.Date (Date5)
+as.Date (Date5, "%y/%m/%d")
+as.Date (Date5, "%y%m%d")
+as.Date (Date5, "%Y%m%d")
+#as.Date (Date6)
+as.Date (Date6, "%y/%m/%d")
+as.Date (Date6, "%Y %m %d")
+#as.Date (Date7)
+as.Date (Date7, "%y/%m/%d")
+as.Date (Date7, "%y.%m.%d")
+as.Date (Date7, "%Y.%m.%d")
+
+
+as.Date ("7Feb2026", format = "%d%b%Y")
+as.Date ("Feb/07/2026", format = "%b/%d/%Y")
+
+Sys.getlocale (category = "LC_TIME")
+Sys.setlocale (category = "LC_TIME", local = "C")
+as.Date ("07Feb2026", format = "%d%b%Y")
+as.Date ("Feb/07/2026", format = "%b/%d/%Y")
+Sys.setlocale (category = "LC_TIME", locale = "ja_JP.UTF-8")
+#In the first place, RStudio runnning on Binder dose not use ja_JP.UTF-8, 
+#and it cannot be reconfigured to ja_JP.UTF-8, can it?
+
+
+#9.7.3 POSIXct, POSIXlt type
+#The POSIXct and POSIXlt types are data types that include not only date information but also time information.
+#They can be created using the as.POSIXct () and as.POSIXlt () functions.
+#Although they loog the same, their internal structures are different.
+#For details, see ?as.POSIXct or ?as.POSIXlt.
+
+#~18:37
+
+#9.8 NA
