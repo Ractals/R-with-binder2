@@ -41,3 +41,35 @@ typeof (3L * 6L)
 
 
 #9.4 Complex
+complex_vec1 <- c(1 + 3i, 3 + 2i, 2.5 + 7i)
+typeof (complex_vec1)
+
+complex_vec2 <- c(3i+1, 2i+3, 7i+2.5)
+typeof (complex_vec2)
+
+complex_vec1 == complex_vec2
+
+complex_vec3 <- c(2+7i, 5, 13+1i)
+complex_vec3
+
+typeof (complex_vec3)
+class (complex_vec3)
+
+
+#9.5 Character
+char_vec1 <- c("Shigemura", "Song", "Tani", "Yanai")
+char_vec2 <- c(1, 2, 3, 4)
+char_vec3 <- c("1", "2", "3", "4")
+char_vec4 <- c(1, "2", 3, 4)
+char_vec1
+char_vec2
+char_vec3
+char_vec4
+class (char_vec1)
+class (char_vec2)
+class (char_vec3)
+class (char_vec4)
+
+
+#9.6 Factor
+
