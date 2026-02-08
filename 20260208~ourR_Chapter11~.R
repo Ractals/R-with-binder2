@@ -50,7 +50,7 @@ base::pi
 #ERROR3
 #Error: unexpected assignment in "for <-"
 
-TRUE <- "Always one!"
+#TRUE <- "Always one!"
 #ERROR4
 #Error in TRUE <- "Always one!" : 
 #invalid (do_set) left-hand side to assignment
@@ -76,73 +76,73 @@ vals [c(T, T, F, F, T)]
 #Emphasize brevity and clarity
 #Object names should be chosen so that the type of data they contain can be inferred from the name alone.
 #For example, if you are creating a variable to represent gender,
-  var2 <- c("female", "male", "male", "female")
+var2 <- c("female", "male", "male", "female")
 #it is better to write:
-  gender <- c("female", "male", "male", "female")
+gender <- c("female", "male", "male", "female")
 
 
 #Others
-  mathematicsscore <- c(30, 91, 43, 77, 100)
+mathematicsscore <- c(30, 91, 43, 77, 100)
 #it is better to write:
-  MathScore <- c(30, 91, 43, 77, 100)
-  #or
-  mathScore <- c(30, 91, 43, 77, 100)
-  #or
-  math_score <- c(30, 91, 43, 77, 100)
-  
+MathScore <- c(30, 91, 43, 77, 100)
+#or
+mathScore <- c(30, 91, 43, 77, 100)
+#or
+math_score <- c(30, 91, 43, 77, 100)
+
 #11.2.2 Line breaks
 #11.2.3 Spaces and indentation
-  #Good example
-  data.frame (
-    name     = c("Song", "Yanai", "Wickham"),
-    favorite = c("Ramen", "Cat",  "R"),
-    gender   = c("Male",  "Male", "Male")
-  )
-  #Bad example
-  data.frame (
-    name = c("Song", "Yanai", "Hadley"),
-    favorite = c("Ramen", "Cat","R"),
-    gender = c("Male", "Male", "Male")
-  )
-  
-    
-  #An evil example
-  data.frame (name = c("Song", "Yanai", "Hadley"), favorite = c("Ramen", "Cat","R"), gender = c("Male", "Male", "Male"))
-  
-  #Good example
-  data.frame (
-    name     = c("Song", "Yanai", "Wickham"),
-    favorite = c("Ramen", "Cat",  "R"),
-    gender   = c("Male",  "Male", "Male")
-  )
-  
-  #Bad example
-  data.frame (
+#Good example
+data.frame (
   name     = c("Song", "Yanai", "Wickham"),
   favorite = c("Ramen", "Cat",  "R"),
   gender   = c("Male",  "Male", "Male")
-  )
-  
+)
+#Bad example
+data.frame (
+  name = c("Song", "Yanai", "Hadley"),
+  favorite = c("Ramen", "Cat","R"),
+  gender = c("Male", "Male", "Male")
+)
+
+
+#An evil example
+data.frame (name = c("Song", "Yanai", "Hadley"), favorite = c("Ramen", "Cat","R"), gender = c("Male", "Male", "Male"))
+
+#Good example
+data.frame (
+  name     = c("Song", "Yanai", "Wickham"),
+  favorite = c("Ramen", "Cat",  "R"),
+  gender   = c("Male",  "Male", "Male")
+)
+
+#Bad example
+data.frame (
+  name     = c("Song", "Yanai", "Wickham"),
+  favorite = c("Ramen", "Cat",  "R"),
+  gender   = c("Male",  "Male", "Male")
+)
+
 #11.2.4 Assignment
 
 
 
-  
-  
+
+
 #11.3 Iteration
 #11.3.1 Iteration using for
-  #  for (any?variable in vector) {
-  #  processing
-  #  }
-  
+#  for (any?variable in vector) {
+#  processing
+#  }
+
 for (i in 1:5) {
   print (1)
 }
-  #of  
+#of  
 for (i in 1:5) print (1)
 
-  
-  
+
+
 vals <- c(24, 64, 31, 46, 81, 102)
 for (incom in vals) {
   x <- paste0 ("I got ", incom, " yen")
@@ -190,37 +190,52 @@ for (i in 1:9) {
   }
 }
 
+for (i in 9:1) {
+  for (j in i:9) {
+    print (paste (i, "*", j, "=", i*j))
+  }
+}
 
 #Load the {tidyverse} package to use read_csv ()
+install.packages ("pacman")
 pacman::p_load (tidyverse)
 #Read FIFA_Men.csv and store it as my_df
-downlod.file ("https://www.jaysong.net/RBook/Data/FIFA_Men.csv", "FIFA_Men.csv")
+download.file ("https://www.jaysong.net/RBook/Data/FIFA_Men.csv", "FIFA_Men.csv")
 #??read_csv
-my_df <- readr::read_csv ("FIFA_men.csv")
+#read_csv
+my_df <- readr::read_csv ("FIFA_Men.csv")
 #Extract only the rows where the Confederation column of my_df is OFC
 my_df <- my_df [my_df$Confederation == "OFC",]
 my_df
 
 for (i in 1:nrow (my_df)) {
-  print (paste0 ("=====", i, "Tean ubfirnatuib fir tge btg ebtrt ===="))
+  print (paste0 ("=====", i, " Team information for the nth entry ===="))
   for (j in c ("Team", "Rank", "Points")) {
     print (paste0 (j,": ", my_df [i,j]))
   }
 }
 
 for (i in 1:nrow (my_df)){
-  print (paste0 ("=====", i, "Tean ubfirnatuib fir tge btg ebtrt ===="))
+  print (paste0 ("=====", i, " Team information for the nth entry ===="))
   for (j in c("Team", "Confederation", "Rank", "Points")) {
     print (paste0 (j, ": ", my_df[i, j]))
   }
 }
 
-
+#Incidentally, the same result can be achieved using a single for loop as follows.
 for (i in 1:nrow (my_df)) {
-  print (paste0 ("=====", i, "Tean ubfirnatuib fir tge btg ebtrt ====\n"))
+  print (paste0 ("=====", i, " Team information for the nth entry ====\n"))
   cat (paste0 ("Team:",   my_df$Team[i],   "\n",
                "Rank:",   my_df$Rank[i],   "\n",
                "Points:", my_df$Points[i], "\n"))
+}
+
+for (i in 1:nrow (my_df)) {
+  print (paste0 ("=====", i, " Team information for the nth entry ====\n"))
+  cat (paste0 ("Team:",           my_df$Team[i],            "\n",
+               "Confederation",   my_df$Confederation[i],   "\n",
+               "Rank:",           my_df$Rank[i],            "\n",
+               "Points:",         my_df$Points[i],          "\n"))
 }
 
 
@@ -228,6 +243,7 @@ my_list <- list (A = c("Song", "Wickham", "Yanai"),
                  B = c("Watanabe", "Toyoshima", "Fujii"),
                  C = c("Abe", "Moon", "Xi"))
 
+my_list
 
 for (i in 1:3) {
   for (j in names (my_list)) {
@@ -236,9 +252,10 @@ for (i in 1:3) {
   print (paste0 ("=== Up to here is the work of the student with attendance number", i, "==="))
 }
 
-my_list <- list (c("Spng", "Wickham", "Yanai"),
-                 c("Watanabe", "Toyoshima", "ujii"),
+my_list2 <- list (c("Spng", "Wickham", "Yanai"),
+                 c("Watanabe", "Toyoshima", "Fujii"),
                  c("Abe", "Moon", "Xi"))
+my_list2
 
 for (i in 1:3) {
   for (j in seq_along (my_list)) {
@@ -248,7 +265,7 @@ for (i in 1:3) {
 }
 
 #11.3.2 Iteration using while
-#~
+#~19:17
 
 
 
