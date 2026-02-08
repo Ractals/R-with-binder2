@@ -170,6 +170,20 @@ for (i in seq_along (cities)) {
 
 #~17:23
 #Nested for loops
+
+#Load the {tidyverse} package to use read_csv ()
+#pacman::p_load (tidyverse)
+
+#Read FIFA_Men.csv and store it as my_df
+#my_df <- read_csv ("Data/FIFA_men.csv)
+
+#Extract only the rows where the Confederation column of my_df is OFC
+
+#"Tean ubfirnatuib fir tge btg ebtrt ====
+#=== Up to here is the work of the student with attendance number 10 ===
+
+
+
 #11.3.2 Iteration using while
 #~
 
