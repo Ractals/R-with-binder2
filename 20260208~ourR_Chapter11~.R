@@ -22,27 +22,125 @@ sum (my_vec2, na.rm = T)
 
 
 #11.2 R coding style
-
 #11.2.1 Object name
+var1 <- c(2, 3, 5, 7, 11) #recomended
+変数1 <- c(2, 3, 5, 7, 11) #not recomended
+var1
+変数1
 
+#100A <- "R"
+#ERROR1
+#Error: unexpected symbol in "100A"
 
 #Avoid reserved words
-#Emphasize brevity and clarity
+pi
 
+pi <- 777
+
+pi
+
+base::pi
+
+
+#if <- "YY"
+#ERROR2
+#Error: unexpected assignment in "if <-"
+
+#for <- "JS"
+#ERROR3
+#Error: unexpected assignment in "for <-"
+
+TRUE <- "Always one!"
+#ERROR4
+#Error in TRUE <- "Always one!" : 
+#invalid (do_set) left-hand side to assignment
+
+
+#Please not that something like the following code can happen.
+vals <- 1:5
+vals [c(TRUE, TRUE, FALSE, FALSE, TRUE)]
+
+#vals[c(T, T, F, F, T)]
+#ERROR5
+#> vals[c(T, T, F, F, T)]
+#Error in vals[c(T, T, F, F, T)] : 
+#  only 0's may be mixed with negative subscripts
+
+T <- "Taylor"
+F <- "Fourier"
+vals [c(T, T, F, F, T)]
+#Thus, although T and F are available by default, they are not reserved words and can be reassigned.
+#However, using T and F as names for user-defined objects can cause confusing, so it is safer to avoid using them.
+#In addition, the bad habit of using T or F instead of TRUE and FALSE should be abandoned; they should always be spelled out in full.
+
+#Emphasize brevity and clarity
+#Object names should be chosen so that the type of data they contain can be inferred from the name alone.
+#For example, if you are creating a variable to represent gender,
+  var2 <- c("female", "male", "male", "female")
+#it is better to write:
+  gender <- c("female", "male", "male", "female")
+
+
+#Others
+  mathematicsscore <- c(30, 91, 43, 77, 100)
+#it is better to write:
+  MathScore <- c(30, 91, 43, 77, 100)
+  #or
+  mathScore <- c(30, 91, 43, 77, 100)
+  #or
+  math_score <- c(30, 91, 43, 77, 100)
+  
 #11.2.2 Line breaks
 #11.2.3 Spaces and indentation
-
-#An evil example
-#Good example
-#Bad example
-
+  #Good example
+  data.frame (
+    name     = c("Song", "Yanai", "Wickham"),
+    favorite = c("Ramen", "Cat",  "R"),
+    gender   = c("Male",  "Male", "Male")
+  )
+  #Bad example
+  data.frame (
+    name = c("Song", "Yanai", "Hadley"),
+    favorite = c("Ramen", "Cat","R"),
+    gender = c("Male", "Male", "Male")
+  )
+  
+    
+  #An evil example
+  data.frame (name = c("Song", "Yanai", "Hadley"), favorite = c("Ramen", "Cat","R"), gender = c("Male", "Male", "Male"))
+  
+  #Good example
+  data.frame (
+    name     = c("Song", "Yanai", "Wickham"),
+    favorite = c("Ramen", "Cat",  "R"),
+    gender   = c("Male",  "Male", "Male")
+  )
+  
+  #Bad example
+  data.frame (
+  name     = c("Song", "Yanai", "Wickham"),
+  favorite = c("Ramen", "Cat",  "R"),
+  gender   = c("Male",  "Male", "Male")
+  )
+  
 #11.2.4 Assignment
 
 
 
-
+  
+  
 #11.3 Iteration
 #11.3.1 Iteration using for
+  #  for (any?variable in vector) {
+  #  processing
+  #  }
+  
+for (i in 1:5) {
+  print (1)
+}
+  #of  
+for (i in 1:5) print (1)
+  
 #Nested for loops
 #11.3.2 Iteration using while
 #~
