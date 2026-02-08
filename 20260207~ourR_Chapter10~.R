@@ -133,6 +133,7 @@ A+B
 A-B
 (C <- B[, 1:3])
 A+C
+#ERROR1
 #Error in A + C : non-conformable arrays
 
 #Matrix multiplication
@@ -306,8 +307,43 @@ head (VoteDF2, 5)
 VoteDF3 <- read_csv ("Vote.csv")
 class (VoteDF3)
 
-
 #10.5 list
+#10.5.1 Create list-type data
+download.file ("https://www.jaysong.net/RBook/Data/FIFA_Women.csv", "FIFA_Women.csv")
+download.file ("https://www.jaysong.net/RBook/Data/FIFA_Men.csv", "FIFA_Men.csv")
+Sccoer_W <- read.csv ("FIFA_Women.csv")
+Sccoer_M <- read.csv ("FIFA_Men.csv")
+Sccoer_W <- Scoer_W [1:10,]
+Sccoer_M <- Scoer_M [1:10,]
+
+List1 <- list (Sccoer_W, Sccoer_M)
+class (List1)
+List1
+
+List2 <- list (Women = Sccoer_W, Men = Sccoer_M)
+List2
+
+#10.5.2 Operating list-type data 
+#Using element indices
+List1[[1]]
+class (List1[[1]])
+List1[[1]][3,]
+#From here, to futher extract the data in the third row, append [3,] after[[]].
+
+List1[1]
+class (List1[1])
+List1[1][3,]
+#ERROR2
+#Error in List1[1][3, ] : incorrect number of dimensions
+
+#Using element names
+List2[["Men"]]
+
+List2$Men
+class(List2[["Men"]])
+
+List2[["Men"]][10,]
+List2$Men[10,]
 
 
 #10.6 array
