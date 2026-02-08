@@ -291,6 +291,21 @@ myDF04
 class (myDF4$English)
 
 #10.4.3 tibble
+download.file ("https://www.jaysong.net/RBook/Data/Vote.csv", "Vote.csv")
+VoteDF1 <- read.csv ("Vote.csv")
+install.packages("tidyverse")
+library (tidyverse)
+#as_tibble
+#VoteDF2 <- tidyverse::as_tibble (VoteDF1)
+VoteDF2 <- as_tibble (VoteDF1)
+class (VoteDF2)
+
+head (VoteDF1, 5)
+head (VoteDF2, 5)
+
+VoteDF3 <- read_csv ("Vote.csv")
+class (VoteDF3)
+
 
 #10.5 list
 
