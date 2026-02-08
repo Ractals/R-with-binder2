@@ -140,7 +140,35 @@ for (i in 1:5) {
 }
   #of  
 for (i in 1:5) print (1)
+
   
+  
+vals <- c(24, 64, 31, 46, 81, 102)
+for (incom in vals) {
+  x <- paste0 ("I got ", incom, " yen")
+  print (x)
+}
+
+paste0 ("R is", "scripting", "language.")
+paste0 ("My", "annual incom", 375, "/ year")
+cities <- c("Sapporo", "Sendai", "Tokyo", "Yokohama", "Nagoya",
+            "Kyoto", "Osaka", "Kobe", "Hiroshima", "Fukuoka")
+for (i in seq_along (cities)) {
+  x <- paste0 ("Now, city price is ", cities[i])
+  print (x)
+}
+
+for (city in cities){
+  x <- paste0 ("Now, city price is ", city)
+  print (x)
+}
+
+for (i in seq_along (cities)) {
+  msg <- paste0 ("Number if ", i, "city is", cities[i])
+  print (msg)
+}
+
+#~17:23
 #Nested for loops
 #11.3.2 Iteration using while
 #~
