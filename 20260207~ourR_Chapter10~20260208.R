@@ -378,4 +378,5 @@ Array2 <- array (c(Mat1, Mat2, Mat3, Mat4), dim = c(3, 4, 4),
 Array2[,,"M4"]
 
 Array2[,,4]
+
 #~16:17
