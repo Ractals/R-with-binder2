@@ -133,7 +133,7 @@ A+B
 A-B
 (C <- B[, 1:3])
 A+C
-
+#Error in A + C : non-conformable arrays
 
 #Matrix multiplication
 A * 2
@@ -207,12 +207,89 @@ myDF4
 #~21:25
 
 
+#20260208 14:41~
 #10.4.2 Operating data.frame
 #Size of data.frame
+dim (myDF4)
+nrow (myDF4)
+ncol (myDF4)
+
 #Extracting elements
+myDF4 [2,6]
+myDF4 [3:4,]
+myDF4 [c(3:4),]
+
+
+myDF4 [, 6]
+myDF4 [, "Name"]
+myDF4$Name
+myDF4$Name [2]
+
+# Operation                Returned data type
+ #Extract one row          Data frame
+ #Extract multiple rows    Data frame
+ #Extract one column       Vector
+ #Extract multiple columns Data frame
+
+
 #Modifying cells
+myDF4 [3, 3] <- 0
+myDF4
+
+myDF4$City[c(1,2)] <- c("Kochi", "Kyoto")
+myDF4
+
 #Adding or modifying columns
+myDF4$English <- c(95, 50, 80, 5)
+myDF4
+English_Score <- c(95, 50, 80, 0)
+myDF4$English <- English_Score
+myDF4
+
+
+myDF4$English <- myDF4$English +5
+myDF4
+myDF04 <- myDF4
 #Avoid adding or modifying rows wherenever possible
+myDF4[5, ] <- c(5, "Hakiai", 50, 50, "Ashiya", "Jiro", 50)
+myDF4
+
+myDF4$Stat
+class (myDF4$Stat)
+#The Stat column, which should originally be of type numeric, has become a character type.
+#The reason is obvious.
+#This is because all elements in a vector must be of the same data type.
+#When numeric and character types are mixed, they are automatically coerced to the (higher-priority) character type.
+#You can understand that the following two commands are equialent.
+# Case1
+myDF4[5, ] <- c(5, "Hakiai", 50, 50, "Ashiya", "Jiro", 50)
+class (myDF4$Stat)
+# Case2
+Hakiai_Data <- c(5, "Hakiai", 50, 50, "Ashiya", "Jiro", 50)
+myDF4[5, ] <- Hakiai_Data
+class (myDF4$Stat)
+
+#Removing the fifth row does not solve the problem, so in the end it is necessary to forcibly change the data type of the column.
+myDF4$ID <- as.numeric (myDF4$ID)
+myDF4$Stat <- as.numeric (myDF4$Stat)
+myDF4$Math <- as.numeric (myDF4$Math)
+myDF4$English <- as.numeric (myDF4$English)
+class (myDF4$Stat)
+
+
+#If you really need to add a row, you can do it in the following way, 
+#but this is not recommended.
+myDF04[6, ] <- rep (NA, 7)  #Add the 6th row to myDF4 and assign seven missing values
+myDF04$ID [6] <- 6          #Assign 6 to the 6th element of myDF4$ID
+myDF04$Name [6] <- "Yukawa" #Assign "Yukawa" to the 6th element of myDF4$Name
+myDF04$Math [6] <- 80       #The rest is omitted
+myDF04$Stat [6] <- 30
+myDF04$City [6] <- "Hiroshima"
+myDF04$Food [6] <- "Ramen"
+myDF04$English [6] <- 90
+myDF04
+class (myDF4$English)
+
 #10.4.3 tibble
 
 #10.5 list
