@@ -169,20 +169,83 @@ for (i in seq_along (cities)) {
 }
 
 #~17:23
+#18:11~
 #Nested for loops
+for (i in 1:9) {
+  for (j in 1:9) {
+    print (paste (i, "*", j, "=", i*j))
+  }
+}
+
+
+for (i in 9:1) {
+  for (j in 1:9) {
+    print (paste (i, "*", j, "=", i*j))
+  }
+}
+
+for (i in 1:9) {
+  for (j in i:9) {
+    print (paste (i, "*", j, "=", i*j))
+  }
+}
+
 
 #Load the {tidyverse} package to use read_csv ()
-#pacman::p_load (tidyverse)
-
+pacman::p_load (tidyverse)
 #Read FIFA_Men.csv and store it as my_df
-#my_df <- read_csv ("Data/FIFA_men.csv)
-
+downlod.file ("https://www.jaysong.net/RBook/Data/FIFA_Men.csv", "FIFA_Men.csv")
+#??read_csv
+my_df <- readr::read_csv ("FIFA_men.csv")
 #Extract only the rows where the Confederation column of my_df is OFC
+my_df <- my_df [my_df$Confederation == "OFC",]
+my_df
 
-#"Tean ubfirnatuib fir tge btg ebtrt ====
-#=== Up to here is the work of the student with attendance number 10 ===
+for (i in 1:nrow (my_df)) {
+  print (paste0 ("=====", i, "Tean ubfirnatuib fir tge btg ebtrt ===="))
+  for (j in c ("Team", "Rank", "Points")) {
+    print (paste0 (j,": ", my_df [i,j]))
+  }
+}
+
+for (i in 1:nrow (my_df)){
+  print (paste0 ("=====", i, "Tean ubfirnatuib fir tge btg ebtrt ===="))
+  for (j in c("Team", "Confederation", "Rank", "Points")) {
+    print (paste0 (j, ": ", my_df[i, j]))
+  }
+}
 
 
+for (i in 1:nrow (my_df)) {
+  print (paste0 ("=====", i, "Tean ubfirnatuib fir tge btg ebtrt ====\n"))
+  cat (paste0 ("Team:",   my_df$Team[i],   "\n",
+               "Rank:",   my_df$Rank[i],   "\n",
+               "Points:", my_df$Points[i], "\n"))
+}
+
+
+my_list <- list (A = c("Song", "Wickham", "Yanai"),
+                 B = c("Watanabe", "Toyoshima", "Fujii"),
+                 C = c("Abe", "Moon", "Xi"))
+
+
+for (i in 1:3) {
+  for (j in names (my_list)) {
+    print (my_list [[j]][i])
+  }
+  print (paste0 ("=== Up to here is the work of the student with attendance number", i, "==="))
+}
+
+my_list <- list (c("Spng", "Wickham", "Yanai"),
+                 c("Watanabe", "Toyoshima", "ujii"),
+                 c("Abe", "Moon", "Xi"))
+
+for (i in 1:3) {
+  for (j in seq_along (my_list)) {
+    print (my_list [[j]][i])
+  }
+  print (paste0 ("=== Up to here is the work of the student with attendance number", i, "==="))
+}
 
 #11.3.2 Iteration using while
 #~
