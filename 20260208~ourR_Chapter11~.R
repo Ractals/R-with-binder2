@@ -264,14 +264,31 @@ for (i in 1:3) {
   print (paste0 ("=== Up to here is the work of the student with attendance number", i, "==="))
 }
 
-#11.3.2 Iteration using while
 #~19:17
+#??cat
+cat("Hello", "World")
+print("Hello")
+cat("Hello")
+cat("Hello\n")
+
+paste("A", "B")
+# "A B"
+
+paste0("A", "B")
+# "AB"
+
+df <- data.frame(id = 1:3, age = c(20, 30, 40))
+names(df)
+#20260211 14:43~
+#11.3.2 Iteration using while
 
 
 
 
 #11.4 Conditional branching
-
+#11.4.1 Conditional Branching with if, else if, and else
+#11.4.2 Conditional Branching with ifelse ()
+#11.4.3 ConditionalBranching with switch ()
 
 #11.5 Exercises
 
