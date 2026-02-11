@@ -318,7 +318,18 @@ while (i <5) {
 #If six appears consecutively, five folls may be sufficient; however, if one continues to appear, it may be necessary to roll the die thirty times.
 #In this manner, when we perform an iterative process without knowing how many repetitions are required, 
 #but we do now the stopping condition, a while loop is appropriate.
-
+total <- 0
+trial <- 1
+while (total < 30) {
+  die <- sample (1:6, size = 1)
+  total <- total +die
+  print (paste0 (trial , "Result of the %d-th dice roll: ", die,
+                 " (Cumulative total so far: ", total, ") "))
+  #The print () function can also be written as follows:
+  #Result <- sprintf ("Result of the %d-th dice roll: %d (Cumulative total so far: %d)"
+  # trial, die, total)
+  trial <- trial +1
+}
 
 
 #11.4 Conditional branching
