@@ -332,6 +332,29 @@ while (total < 30) {
 }
 
 
+#This iterative process can also be reproduced using a for loop. 
+#It may be implemented as follows
+
+total <- 0
+for (trail in 1:30) {
+  die <- sample (1:6, 1)
+  total <- total +die
+  #It is also possible to sue sprintf () insted of print ()
+  result <- sprintf ("Result of the %d-th dice roll: %d (Cumulative total so far: %d) ",
+  trial,die, total)
+  print (result)
+  if (total >= 30) break () #you can omit ()
+}
+
+name <- "Sont"
+bowls <- 50
+height <- 176.2
+print (paste0 (name, " consumes ", bowls, " bowls of ramen per month, and he height is ", height, " cm."))
+#Stire bane ub %s, bowls in %d, and height in %.1f (rounded to one decimal place), then output
+sprintf ( "%s consumes %d bowls of ramen per month, and he height is %.1f cm.", name, bowls, height)
+
+#~16:46
+
 #11.4 Conditional branching
 #11.4.1 Conditional Branching with if, else if, and else
 #11.4.2 Conditional Branching with ifelse ()
