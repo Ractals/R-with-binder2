@@ -282,12 +282,42 @@ df <- data.frame(id = 1:3, age = c(20, 30, 40))
 names(df)
 
 #20260211 14:43~
+#I had troble updating the token.
+#Did need to check "repo" in the sast as well?
+#15:47~
 #11.3.2 Iteration using while
+# while (condition)
+  #  Procssing performed when then condition is met
+# }
+for (i in 1:5) {
+  print (i)
+}
 
+i <- 1
+while (i < 6) {
+  print (i)
+  i <- i+1
+}
 
+i<-1
+while (i < 6) {
+  i <- i+1
+  print (i)
+}
 
+i<- 0
+while (i <5) {
+  i <- i +1
+  print (i)
+}
 
-
+#When the objective is defined but the number of repetitions required to achieve that objective is unknown, a while loop should be used insted of a for loop.
+#For example, consider the case of rolling a six^sided die. Suppose we record the outcome of each roll and wish to stop rolling once the cumulative total reaches 30 o morley
+#How should this be implemented?
+#It the number of rolls required is not known in advance, a, for loop cannot be used.
+#If six appears consecutively, five folls may be sufficient; however, if one continues to appear, it may be necessary to roll the die thirty times.
+#In this manner, when we perform an iterative process without knowing how many repetitions are required, 
+#but we do now the stopping condition, a while loop is appropriate.
 
 
 
