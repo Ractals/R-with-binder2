@@ -95,31 +95,31 @@ math_score <- c(30, 91, 43, 77, 100)
 #Good example
 data.frame (
   name     = c("Song", "Yanai", "Wickham"),
-  favorite = c("Ramen", "Cat",  "R"),
+  favorite = c("noodle", "Cat",  "R"),
   gender   = c("Male",  "Male", "Male")
 )
 #Bad example
 data.frame (
   name = c("Song", "Yanai", "Hadley"),
-  favorite = c("Ramen", "Cat","R"),
+  favorite = c("noodle", "Cat","R"),
   gender = c("Male", "Male", "Male")
 )
 
 
 #An evil example
-data.frame (name = c("Song", "Yanai", "Hadley"), favorite = c("Ramen", "Cat","R"), gender = c("Male", "Male", "Male"))
+data.frame (name = c("Song", "Yanai", "Hadley"), favorite = c("noodle", "Cat","R"), gender = c("Male", "Male", "Male"))
 
 #Good example
 data.frame (
   name     = c("Song", "Yanai", "Wickham"),
-  favorite = c("Ramen", "Cat",  "R"),
+  favorite = c("noodle", "Cat",  "R"),
   gender   = c("Male",  "Male", "Male")
 )
 
 #Bad example
 data.frame (
   name     = c("Song", "Yanai", "Wickham"),
-  favorite = c("Ramen", "Cat",  "R"),
+  favorite = c("noodle", "Cat",  "R"),
   gender   = c("Male",  "Male", "Male")
 )
 
@@ -286,9 +286,9 @@ names(df)
 #Did need to check "repo" in the sast as well?
 #15:47~
 #11.3.2 Iteration using while
-# while (condition)
-  #  Procssing performed when then condition is met
-# }
+  # while (condition)
+    #  Procssing to be performed when then condition is not safisfied
+  # }
 for (i in 1:5) {
   print (i)
 }
@@ -349,18 +349,162 @@ for (trail in 1:30) {
 name <- "Sont"
 bowls <- 50
 height <- 176.2
-print (paste0 (name, " consumes ", bowls, " bowls of ramen per month, and he height is ", height, " cm."))
+print (paste0 (name, " consumes ", bowls, " bowls of noodle per month, and he height is ", height, " cm."))
 #Stire bane ub %s, bowls in %d, and height in %.1f (rounded to one decimal place), then output
-sprintf ( "%s consumes %d bowls of ramen per month, and he height is %.1f cm.", name, bowls, height)
+sprintf ( "%s consumes %d bowls of noodle per month, and he height is %.1f cm.", name, bowls, height)
 
 #~16:46
 
+#17:44~
 #11.4 Conditional branching
 #11.4.1 Conditional Branching with if, else if, and else
+ # if (condition) {
+  #  Procssing to be performed when then condition is not safisfied
+ # }
+name <- "Song"
+if (name == "Song") {
+  print ("I love noodles")
+}
+
+name <- "Yanai"
+if (name == "Song") {
+  print ("I love nodles")
+}
+
+
+  # if (condition) {
+    # Procssing to be performed when then condition is  safisfied
+  # } else {
+    #  Procssing to be performed when then condition is not safisfied
+  #}
+
+#The esle statement may also be written on a new line, as shown below
+
+ # if (condition) {
+  # Procssing to be performed when then condition is  safisfied
+ # } 
+ #else {
+  #  Procssing to be performed when then condition is not safisfied
+ #}
+
+#However, this style is not recommended. Since else is always used in conjunction with if,
+#the standard coding convention is to place it immediately after the closing brace } of the corresponding if black, separated by a single spece.
+
+name <- "Song"
+if (name == "Song") {
+  print ("I love a noodle")
+} else {
+  print ("I hate a noodle")
+}
+name <- "Yanai"
+if (name == "Song") {
+  print ("I love a noodle")
+} else {
+  print ("I hate a noodle")
+}
+
+#if (conditiona) {
+  #Processing to be performed when condition1 is satisfied
+#} else if (condition2) {
+ #Processing to be performed when condition1 is not satisfied but condition2 is satisfied
+#} else if (condition3) {
+ #Processing to be performed when neither condition 1 nor condition2 is satisfied but condition3
+#} else {
+ #Processing to be performed when none of the conditions are satisfied
+#}
+
+name <- "Song"
+if (name =="Song" | name =="Koike") {
+  #The aboe condition may also be written as (name %in% c ("song", "Koike"))
+  print ("I love noodles")
+} else if (name =="Yanai") {
+  print ("I hate noodles") 
+} else {
+  print ("Moderately fond on noodles")
+}
+
+
+name <- "Yanai"
+if (name %in% c("Song", "Koike")) {
+  print ("I love noodles")
+} else if (name == "Yanai") {
+  print ("I hate noodles")
+} else {
+  print ("Moderately fond no noodles")
+}
+
+
+name <- "Koike"
+if (name %in% c("Song", "Koike")) {
+  print ("I love noodles")
+} else if (name == "Yanai") {
+  print ("I hate noodles")
+} else {
+  print ("Moderately fond no noodles")
+}
+
+
+
+name <- "Shigemura"
+if (name %in% c("Song", "Koike")) {
+  print ("I love noodles")
+} else if (name == "Yanai") {
+  print ("I hate noodles")
+} else {
+  print ("Moderately fond no noodles")
+}
+
+
+
+name <- "Hakiai"
+if (name %in% c("Song", "Koike")) {
+  print ("I love noodles")
+} else if (name == "Yanai") {
+  print ("I hate noodles")
+} else {
+  print ("Moderately fond no noodles")
+}
+
+
+
+scores <- c(58, 100, 81, 97, 71, 61, 60, 73, 85)
+for (i in seq_along (scores)) {
+  if (scores[i] >= 60) {
+    print (paste0 ("Student", i, "Evaluation Result: Pass"))
+  } else {
+    print (paste0 ("Student", i, "Evaluation Result: Fail"))
+  }
+}
+
+scores <- c(58, 100, 81, 97, 71, 61, 47, 60, 73, 85)
+for (i in seq_along (scores)) {
+  if (scores [i] >= 60) {
+    result <- sprintf ("Student%d Evaluation Result:Pass", i )
+  } else {
+    result <- sprintf ("Student%d Evaluation Result:Fail", i )
+  }
+  print (result)
+}
+
+
+score <- c(58, 100, 81, 97, 71, 61, 47, 60, 73, 85)
+pf <- rep (NA, length (scores))
+for (i in seq_along (scores)) {
+  if (scores [i] >= 60) {
+    pf[i] <- "Pass" 
+  } else {
+    pf[i] <- "Fail" 
+  }
+}
+
+pf
+#~18:18
+
 #11.4.2 Conditional Branching with ifelse ()
 #11.4.3 ConditionalBranching with switch ()
 
 #11.5 Exercises
+
 
 
 
