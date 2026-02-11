@@ -279,6 +279,7 @@ paste0("A", "B")
 
 df <- data.frame(id = 1:3, age = c(20, 30, 40))
 names(df)
+
 #20260211 14:43~
 #11.3.2 Iteration using while
 
