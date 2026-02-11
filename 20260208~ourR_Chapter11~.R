@@ -277,6 +277,7 @@ paste("A", "B")
 paste0("A", "B")
 # "AB"
 
+
 df <- data.frame(id = 1:3, age = c(20, 30, 40))
 names(df)
 
