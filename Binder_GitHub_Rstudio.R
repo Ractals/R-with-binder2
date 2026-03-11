@@ -210,3 +210,5 @@ rtf <- paste0(rtf,make_line_top())
 rtf <- paste0(rtf,"}")
 
 writeLines(rtf,"RAS2410-01_adsl_20260309_31_2.rtf")
+
+
