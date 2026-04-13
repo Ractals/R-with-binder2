@@ -4,7 +4,7 @@ TOI
 osrel8vOg3u59S1
 
 https://github.com/Ractals/R-with-binder2.git
-system('git config --global user.name "shuhei"')
+system('git config --global user.name "username"')
 system('git config --global user.email "xxx@gmail.com"')
 system('git config --global --list')
 
