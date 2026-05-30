@@ -140,4 +140,214 @@ A
 
 
 
-#10.4
+#20260530 24:39~
+#10.4 data.frame
+#10.4.1 create data.frame
+myDF <- data.frame (
+                    ID = 1:4,
+                    Name = c ("Yanai", "Song", "Shigemura", "Tani"),
+                    Math = c (50, 90, 100, 80),
+                    Stat = c (25,  5, 100, 85)
+                    )
+class (myDF)
+
+
+myDF_ID <- 1:4
+myDF_Name <- c ("Yanai", "Song", "Shigemura", "Tani")
+myDF_Math <- c (50, 90, 100, 80)
+myDF_Stat <- c (25,  5, 100, 85)
+myDF2 <- data.frame (myDF_ID, myDF_Name, myDF_Math, myDF_Stat)
+myDF2    
+
+myDF == myDF2
+
+
+myDF3 <- data.frame (
+                      ID = myDF_ID, 
+                      Name = myDF_Name,
+                      Math = myDF_Math,
+                      Stat = myDF_Stat
+                    )
+myDF3
+
+myDF2 == myDF3
+
+myDF4 <- data.frame (
+                      ID = 1:4,
+                      Name = c ("Yanai", "Song", "Shigemura", "Tani"),
+                      Math = c (50, 90, 100, 80),
+                      Stat = c (25,  5, 100, 85),
+                      City =    "Kobe",
+                      Food = c ("Ramen", "Udon")
+                    )
+myDF4
+myDF2 == myDF4
+
+
+
+#10.4.2 data.frame operation
+dim (myDF4)
+
+
+nrow (myDF4)
+
+
+ncol (myDF4)
+
+
+#Extraction of elements
+myDF4 [2, 6]
+myDF4 [3:4, ]
+myDF4 [, 6]
+myDF4 [, "Name"]
+myDF4$Name
+myDF4$Name [2]
+
+
+# Modify a cell
+myDF4_2 <- myDF4
+myDF4_2
+myDF4_2 [3, 3] <- 0
+myDF4 == myDF4_2
+
+myDF4_3 <-myDF4_2
+myDF4_3$City [c (1, 2)] <- c ("Kochi", "Kyoto")
+myDF4_3
+myDF4_2 == myDF4_3
+
+#add or modify columns
+myDF4_4 <- myDF4_3
+myDF4_3$English <- c (95, 50, 80, 5)
+English_Score <- c (95, 50, 80, 5)
+myDF4_5 <- myDF4_4
+myDF4_5$English <- English_Score
+myDF4_5
+
+myDF4_6 <- myDF4_5
+myDF4_6$English <- myDF4_5$English +5
+myDF4_6
+
+#Avoid adding or odifying rows whenever possible.
+myDF4_7 <- myDF4_6
+myDF4_7 [5, ] <- c (5, "Hakiai", 50, 50, "Ashiya", "Jiro", 50)
+myDF4_7
+
+
+myDF4_7$Stat
+
+class (myDF4_7$Stat)
+
+myDF4_8 <- myDF4_7
+myDF4_8 [5, ] <- c (5, "Hakiai", 50, 50, "Ashiya", "Jiro", 50)
+
+myDF4_9 <- myDF4_7
+Hakiai_Data <- c (5, "Hakiai", 50, 50, "Ashiya", "Jiro", 50)
+myDF4_9 [5, ] <- Hakiai_Data
+
+myDF4_9 == myDF4_8
+
+myDF4_10 <- myDF4_7
+myDF4_10$ID <- as.numeric (myDF4_10$ID)
+myDF4_10$Math <- as.numeric (myDF4_10$Math)
+myDF4_10$Stat <- as.numeric (myDF4_10$Stat)
+myDF4_10$English <- as.numeric (myDF4_10$English)
+class (myDF4_10$Math)
+
+
+
+myDF4_11 <- myDF4_10
+myDF4_11$Name [6] <- "Yukawa"
+myDF4_11$Math [6] <- 80
+myDF4_11$Stat [6] <- 30
+myDF4_11$City [6] <- "Hiroshima"
+myDF4_11$Food [6] <- "Ramen"
+myDF4_11$English [6] <- 90
+myDF4_11
+
+myDF4_12 <- myDF4_10
+myDF4_12 [6, ] <-rep (NA, 7)
+myDF4_12$Name [6] <- "Yukawa"
+myDF4_12$Math [6] <- 80
+myDF4_12$Stat [6] <- 30
+myDF4_12$City [6] <- "Hiroshima"
+myDF4_12$Food [6] <- "Ramen"
+myDF4_12$English [6] <- 90
+myDF4_12
+
+myDF4_11 == myDF4_12
+
+
+class (myDF4_12$English)
+
+
+
+#10.4.3 tibble
+
+download.file ("https://www.jaysong.net/RBook/Data/Vote.csv", "Vote.csv")
+VoteDF1 <- read.csv ("Vote.csv")
+#??as_tibble
+install.packages ("dplyr")
+library (dplyr)
+VoteDF2 <- as_tibble (VoteDF1)
+class (VoteDF1)
+class (VoteDF2)
+
+VoteDF1
+VoteDF2
+
+#??read_csv
+install.packages ("readr")
+#library (readr)
+#library (read_dlim)
+VoteDF3 <- read_csv ("Vote.csv")
+class (VoteDF3)
+
+
+#10.5 list
+#10.5.1 create list data.
+download.file ("https://www.jaysong.net/RBook/Data/FIFA_Women.csv", "FIFA_Women.csv")
+download.file ("https://www.jaysong.net/RBook/Data/FIFA_Men.csv", "FIFA_Men.csv")
+Soccer_W <- read.csv ("FIFA_Women.csv")
+Soccer_M <- read.csv ("FIFA_Men.csv")
+Soccer_W_1 <- Soccer_W
+Soccer_M_1 <- Soccer_M
+Soccer_W_1 <- Soccer_W_1 [1:10, ]
+Soccer_M_1 <- Soccer_M_1 [1:10, ]
+
+List1 <- list (Soccer_W_1, Soccer_M_1)
+List1
+
+
+List2 <- list (Women = Soccer_W_1, Men = Soccer_M_1)
+List2
+
+#10.5.2 list operation
+List1 [[1]]
+class (List1 [[1]])
+List1 [1]
+
+class (List1[1])
+
+
+List1 [1] [3, ]
+
+# Using Element Names
+List2 [["Men"]]
+
+
+class (List2 [["Men"]])
+
+
+class (List2$Men)
+
+
+List2[["Men"]][10, ]
+List2$Men [10, ]
+
+
+
+#20260530 ~25:58
+
+
+
+#10.6 array
