@@ -201,7 +201,7 @@ if (is.na (x)) {
   print ("missing")
 }
 
-
+#exercise (1)
 score <- 82
 if (score > 90) {
   print ("A")
@@ -214,7 +214,7 @@ if (score > 90) {
 }
 
 
-
+#exercise (2)
 age <- c (15, 22, 35, 47, 68)
 range <- NULL
 if (age < 20) {
@@ -249,3 +249,135 @@ for (i in 1:length (age)) {
 
 
 #20260608 ~25:49
+
+
+
+
+
+#20260621 25:18~
+#Practice ADSL dataset
+adsl <- data.frame (
+                    USUBJID = sprintf ("SUBJ%03d", 1:10),
+                    TRT01A = rep (c ("Placebo", "Drug"), each = 5),
+                    SAFFL  = c (
+                                rep ("Y", 3), "N","Y", rep ("Y", 2), "N", rep ("Y", 2)
+                                ),
+                    AGE = c (25, 38, 72, 45, 67, 28, 51, 60, 73, 35)
+                   )
+adsl
+
+#1:count up population
+trt_list <- unique (adsl$TRT01A)
+for (trt in trt_list) {
+  n <- 0
+  for (i in 1:nrow (adsl)){
+    if (
+      adsl$TRT01A[i] == trt &
+      adsl$SAFFL[i] == "Y"
+    ){
+      n <- n +1
+    }
+  }
+  cat (trt, ":", n, "\n")
+}
+
+
+#2:count up age category
+for (i in 1:nrow (adsl)) {
+  if (adsl$AGE[i] < 40) {
+    adsl$AGEGRP[i] <- "<40"
+  }else if (adsl$AGE [i] < 65){
+    adsl$AGEGRP[i] <- "40-64"
+  }else {
+    adsl$AGEGRP [i] <- ">=65"
+  }
+}
+adsl
+
+#3:each param treatment
+adlb <- data.frame (
+                    USUBJID  = c (
+                                  "01", "02", "03",
+                                  "01", "02", "03"
+                                  ),
+                    PARAMCD = rep ( c ("ALT", "AST"), each = 3),
+                    AVAL = c (35, 48, 120, 30, 45, 90)
+                    )
+
+adlb
+
+param_list <- unique (adlb$PARAMCD)
+for (param in param_list) {
+  vals <- c ()
+  for (i in 1:nrow (adsl)){
+    if (adsl$PARAMCD [i] == param) {
+      vals <- c (vals, adsl$AVAL [i])
+    }
+  }
+  cat (param, mean (vals), "\n")
+}
+
+
+#4 Shift Table
+shift <- data.frame (
+                      BASE = c (20, 30, 80, 120),
+                      AVAL = c (25, 90, 100, 180),
+                      ULN  = c (40, 40, 40, 40)
+                    )
+shift
+
+for (i in 1:nrow (shift)) {
+  if (shift$BASE [i] <= shift$ULN [i]) {
+    base_cat <- "Normal"
+  }else {
+    base_cat <- "High"
+  }
+  if (shift$AVAL [i]<= shift$ULN [i]){
+    post_cat <- "Normal"
+  }else {
+    post_cat <- "Hight"
+  }
+  cat (base_cat, "->", post_cat, "\n")
+}
+
+#5 else if
+
+aval <- 180
+if (aval < 40){
+  grade <- 0
+}else if (aval < 80){
+  grade <- 1
+}else if (aval < 120){
+  grade <- 2
+}else if (aval < 200){
+  grade <- 3
+}else {
+  grade <- 4
+}
+grade
+
+
+#6class freqance
+adsl$SEX <- c ("M", "F", "M", "F", "M", "M", " F", "M", "F", "M")
+trt_list
+adsl
+
+for (trt in trt_list) {
+  for (sex in c ("M", "F")) {
+    n <- 0
+    for (i in 1:nrow (adsl)) 
+      {
+      if (
+          adsl$TRT01A [i] == trt &
+          adsl$SEX [i] == sex &
+          adsl$SAFFL [i] == "Y"
+         ) {
+             n <- n +1
+           }
+      }
+    cat (trt, sex, n, "\n")
+  }
+}
+
+#20260621 ~26:25
+
