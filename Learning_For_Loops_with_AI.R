@@ -380,7 +380,7 @@ for (trt in trt_list) {
 }
 
 #20260620 ~20:28
-#Break
+#3/8Break
 for (i in 1:5){
   print (i)
 }
@@ -490,4 +490,75 @@ for (i in seq_along (aval)) {
   print (aval [i])
 }
 
-#20260621 ~21:
+
+#4/8 loop
+adsl <- data.frame (
+  USUBJID = sprintf ("SUBJ%03d", 1:8),
+  TRT01A = rep (c ("Placebo", "Drug"), each = 4),
+  SEX1 =  c (
+            rep (c ("M", "F"), each = 2),
+            rep (c ("M", "F"), times = 2)
+            ),
+  SAFFL = c (rep ("Y", times = 3), "N", rep ("Y", times = 2), "N", "Y")
+)
+adsl
+
+
+#per TRT
+trt_list <- unique (adsl$TRT01A) 
+for (trt in trt_list) {
+  n <- 0
+  for (i in 1:nrow (adsl)) {
+    if (
+      adsl$TRT01A [i] == trt &
+      adsl$SAFFL [i] == "Y"
+    ) {
+      n <- n +1
+    }
+  }
+  cat (trt, n, "\n")
+}
+
+
+#TRT x SEX
+trt_list <- unique (adsl$TRT01A)
+for (trt in trt_list) {
+  for (sex in c ("M", "F")) {
+    n <- 0
+    for (i in 1:nrow (adsl)) {
+      if (
+        adsl$TRT01A [i] == trt &
+        adsl$SEX [i] == sex &
+        adsl$SAFFL [i] == "Y"
+      ) {
+        n <- n +1
+      }
+    }
+    cat (trt, sex, n, "\n")
+  }
+}
+
+
+#for loop with ADaM
+adlb <- data.frame (
+  USUBJID = c (
+    rep ( c("01", "02", "03", "04"), times = 2)
+  ),
+  TRT01A = c (rep (c ( rep ( c("Placebo", "Drug"), each = 2)), times = 2)),
+  PARAMCD = c (rep (c ("ALT", "AST"), each = 4)),
+  AVAL = c (30, 40, 50, 60, 25, 35, 45, 55)
+  
+)
+adlb
+
+
+for (param in unique (adlb$PARAMCD)) {
+  vals <- c ()
+  for (i in 1:nrow (adsl)) {
+    if (adlb$PARAMCD [i] == param) {
+      vals <- c (vals, adlb$AVAL [i])
+    }
+  }
+  cat (param, mean (vals), "\n")
+}
+#20260621 ~21:39
