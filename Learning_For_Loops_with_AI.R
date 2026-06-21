@@ -254,7 +254,7 @@ for (i in 1:length (age)) {
 
 
 
-#20260621 25:18~
+#20260620 25:18~
 #Practice ADSL dataset
 adsl <- data.frame (
                     USUBJID = sprintf ("SUBJ%03d", 1:10),
@@ -379,5 +379,115 @@ for (trt in trt_list) {
   }
 }
 
-#20260621 ~26:25
+#20260620 ~20:28
+#Break
+for (i in 1:5){
+  print (i)
+}
 
+for (i in 1:10) {
+  if (i == 5) {
+    break
+  }
+  print (i)
+}
+
+#next
+for (i in 1:10) {
+  if (i == 5) {
+    next
+  }
+  print (i)
+}
+
+
+#nex with ADaM (1)
+adlb <- data.frame (
+  USUBJID = c ("01", "02", "03", "04"),
+  AVAL = c (10, NA, 25, 30)
+)
+
+for (i in 1:nrow (adlb)) {
+  if (is.na (adlb$AVAL [i])) {
+    next
+  }
+  print (adlb$AVAL [i])
+}
+
+
+#nex with ADaM (2)
+adsl <- data.frame (
+  USUBJID = c ("01", "02", "03", "04"),
+  SAFFL = c ("Y", "N", "Y", "N")
+)
+
+for (i in 1:nrow (adsl)) {
+  if (adsl$SAFFL [i] != "Y"){
+    next
+  }
+  print (adsl$USUBJID[i])
+}
+
+
+#nex with ADaM (3)
+adae<- data.frame (
+  USUBJID = 
+    rep (c ("01", "02"), times = c (3, 2)),
+  ASTDT = c (10, 20, 30, 5, 15)
+)
+adae
+
+
+for (i in 1:nrow (adae)) {
+  if (adae$USUBJID [i] == "01") {
+    print (adae$ASTDT [i])
+    break
+  }
+}
+
+
+#nex with ADaM (4)
+for (trt in trt_list) {
+  n <- 0
+  for (i in 1:nrow (adsl)) {
+    if (adsl$SAFFL [i] != "Y") {
+      next
+    }
+    if (adsl$TRT01A [i] == trt) {
+      n <- n+1
+    }
+  }
+  print (n)
+}
+
+
+
+#exercise1
+age <- c (25, 30, NA, 45, NA, 60)
+
+for (i in seq_along (age)) {
+  if (is.na (age [i])){
+    next
+  }
+  print (age [i])
+}
+
+for (i in 1:length (age)) {
+  if (is.na (age [i])){
+    next
+  }
+  print (age [i])
+}
+
+
+#exercise2
+aval <- c (10, 15, 25, 35, 50)
+
+for (i in seq_along (aval)) {
+  if (aval [i] > 30){
+    break
+  }
+  print (aval [i])
+}
+
+#20260621 ~21:
