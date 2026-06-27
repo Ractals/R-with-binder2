@@ -562,3 +562,137 @@ for (param in unique (adlb$PARAMCD)) {
   cat (param, mean (vals), "\n")
 }
 #20260621 ~21:39
+
+
+#20260627 25:36~
+#part 5/8
+adsl <- data.frame (
+  USUBJID = c ("01", "02", "03", "04", "05"),
+  TRT01A  = rep (c ("Placebo", "Drug"), times = c (2, 3)),
+  SEX     = c ("M", "F", "M", "F", "M"),
+  AGE     = c (25, 68, 42, 18, 72),
+  SAFFL   = c (rep ( c("Y", "N"), times = c (3, 1)), "Y")
+)
+adsl
+nrow (adsl)
+
+for (i in 1:nrow (adsl)) {
+  print  (i)
+}
+
+
+adsl$AGE
+adsl$AGE [1]
+
+adsl$AGE [2]
+
+for (i in 1:nrow (adsl)) {
+  print (adsl$AGE [i])
+}
+adsl$AGEGR1 <- ""
+adsl$AGEGR1 <- NA_character_
+adsl$AGEGR1 <- NA_real_
+adsl
+for (i in 1:nrow (adsl)){
+  if (adsl$AGE [i] < 65){
+    adsl$AGEGR1 [i] <- "<65"
+  }else {
+    adsl$AGEGR1 [i] <- ">=65"
+  }
+}
+adsl
+
+for (i in 1:nrow (adsl)){
+  if (adsl$SAFFL [i] == "Y") {
+    print (adsl$USUBJID [i])
+  }
+}
+
+
+
+#exercise1
+for (i in 1:nrow (adsl)) {
+  if (adsl$AGE [i] < 20) {
+    adsl$AGECAT [i] <- "Child"
+#  }else if (adsl$(20 <= AGE [i] < 65)) {
+  }else if (adsl$AGE [i] >=20  && adsl$AGE [i] < 65) {
+    adsl$AGECAT [i] <- "Adult"
+  }else if (adsl$AGE [i] <= 65) {
+    adsl$AGECAT [i] <- "Senior"
+  }
+}
+adsl
+
+#exercise2
+for (i in 1:nrow (adsl)) {
+  if (adsl$TRT01A [i] == "Placebo") {
+    adsl$TRTDISP [i] <- "PBO"
+  }else if (adsl$TRT01A [i] == "Drug") {
+    adsl$TRTDISP [i] <- "Active"
+  }
+}
+adsl
+
+
+#part 6/8
+adlb <- data.frame (
+  ALT = c (25, 35, 50),
+  AST = c (18, 24, 40),
+  ALP = c (80, 90, 120),
+  BILI = c (0.8, 1.0, 1.5)
+)
+adlb
+
+
+names (adlb)
+for (j in names (adlb)) {
+  print (j)
+}
+
+adlb$ALT
+
+j <- "ALT"
+adlb$j
+adlb
+
+j <- "ALT"
+adlb [[j]]
+adlb
+
+
+for (j in names (adlb)) {
+  cat (j, mean (adlb [[j]]), "\n")
+}
+
+
+for (j in names (adlb)) {
+  adlb [[paste0 (j, "_2")]] <- adlb [[j]] *2
+}
+
+
+
+labvars <- c ("ALT", "AST", "ALP")
+for (j in labvars) {
+  adlb [[j]] <- round (adlb [[j]], 1)
+}
+adlb
+
+
+adlb
+#adlb[[ALT]][2] <- NA
+#adlb[["ALT"]][2] <- NA
+#adlb [cbind (c (2,3), c ("ALT", "AST"))] <- NA
+#adlb [c (2,3), c ("ALT", "AST")] <- NA
+
+
+adlb$ALT[2] <- NA
+adlb$AST[3] <- NA
+#or
+adlb [c (2,3), c ("ALT", "AST")] <- list (c (NA, 50), c (24, NA))
+adlb
+
+for (j in names (adsl)) {
+  cat (j, sum (is.na (adlb [[j]])), "\n")
+}
+
+#20260627 ~26:55
