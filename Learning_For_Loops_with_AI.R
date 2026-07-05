@@ -696,3 +696,204 @@ for (j in names (adsl)) {
 }
 
 #20260627 ~26:55
+
+
+
+
+#20260705 23:34~
+#7.lapply ()
+adlb <- data.frame (
+  ALT = c (25, 35, 50),
+  AST = c (18, 24, 40),
+  ALP = c (80, 90, 120)
+)
+adlb
+
+for (v in names (adlb)) {
+  print (mean (adlb [[v]]))
+}
+
+lapply (adlb, mean)
+
+
+result <- lapply (adlb, mean)
+class (result)
+result
+
+#(2) sapply ()
+sapply (adlb, mean)
+
+
+class (sapply (adlb, mean))
+
+#(3) apply ()
+apply (adlb, 2, mean) #columns mean
+apply (adlb, 1, mean) #rows mean
+
+
+#(4)tapply ()
+adsl <- data.frame (
+  TRT01A =  rep ( c ("PBO", "Drug"), times = c(2, 2)),
+  AGE = c (30, 40, 50, 60)
+)
+adsl
+
+
+for (trt in unique (adsl$TRT01A)) {
+  print (mean (adsl$AGE [adsl$TRT01A == trt]))
+}
+
+tapply (adsl$AGE, adsl$TRT01A, mean)
+
+
+sapply (adlb, function (x)
+  sum (is.na (x)))
+
+sapply (adlb, min)
+sapply (adlb, max)
+sapply (adlb, sd)
+sapply (adlb, median)
+
+
+
+sapply (adlb, function (x)
+  mean (x, na.rm = TRUE))
+
+
+#method        return
+#adlb[1]       column1 data.frame
+#adlb['ALT']   column1 data.frame
+#adlb[[1]]     numeric vector c(25,35,50)
+#adlb[['ALT']] numeric vector c(25,35,50)
+#adlb$ALT      numeric vector c(25,35,50)
+
+
+#method         return
+#adlb[2,3]	    90
+#adlb[,"ALT"]	  columns ALT (vactor)
+#adlb["ALT"]	  column1 data.frame
+#adlb[[1]]	    columns ALT (vactor)
+#adlb[["ALT"]]	columns ALT  (vactor)
+#adlb$ALT	      column1 ALT  (vactor)
+#adlb[[1]][2]	  35
+
+
+
+
+#8.purrr
+for (v in names (adlb)) {
+  print (mean (adlb [[v]]))
+}
+
+lapply (adlb, mean)
+
+install.packages ("purrr")
+library (purrr)
+
+map (adlb, mean)
+
+
+adlb <- data.frame (
+  ALT = c (25, 35, 50),
+  AST = c (18, 24, 40),
+  ALP = c (80, 90, 120)
+)
+adlb
+
+
+#map ()
+map (adlb, mean)
+
+#same as
+lapply (adlb, mean)
+
+
+#map_dbl ()
+map_dbl (adlb, mean)
+
+
+x0 <- map (adlb, mean)
+typeof (x0)
+
+x <- map_dbl (adlb, mean)
+class (x)
+typeof (x)
+
+
+#map_chr ()
+x <- map_chr (adlb, class)
+x
+typeof (x)
+
+
+#map_int ()
+map_dbl (adlb, function (x)
+  mean (x, na.rm = TRUE))
+
+#or
+map_dbl (adlb, \(x) mean (x, na.rm =TRUE))
+
+#missing
+map_int (adlb, \(x) sum (is.na (x)))
+
+#Mean DS
+map_dbl (adlb, mean)
+
+
+adlb
+#every PARAMN
+#folows AI copy (paramcd in adlb) 
+adlb <- data.frame(
+  USUBJID = c(
+    "SUBJ001","SUBJ001","SUBJ001",
+    "SUBJ002","SUBJ002","SUBJ002",
+    "SUBJ003","SUBJ003","SUBJ003"
+  ),
+  
+  TRT01A = c(
+    "Placebo","Placebo","Placebo",
+    "Drug","Drug","Drug",
+    "Drug","Drug","Drug"
+  ),
+  
+  PARAMCD = c(
+    "ALT","AST","BILI",
+    "ALT","AST","BILI",
+    "ALT","AST","BILI"
+  ),
+  
+  PARAM = c(
+    "Alanine Aminotransferase",
+    "Aspartate Aminotransferase",
+    "Total Bilirubin",
+    "Alanine Aminotransferase",
+    "Aspartate Aminotransferase",
+    "Total Bilirubin",
+    "Alanine Aminotransferase",
+    "Aspartate Aminotransferase",
+    "Total Bilirubin"
+  ),
+  
+  AVAL = c(
+    25,20,0.8,
+    42,38,1.2,
+    55,48,1.5
+  )
+)
+
+adlb
+
+
+param_list <- unique (adlb$PARAMCD)
+map (param_list, function (param) {
+  subset (
+    adlb, PARAMCD == param)
+  }
+)
+
+
+
+#walk ()
+walk (param_list, print)
+
+#20260705 ~24:22
