@@ -240,3 +240,6 @@ group_mean <- function (data, group, var) {
 group_mean (adsl, "TRT", "AGE")
 
 #20260729 ~26:42
+
+
+
