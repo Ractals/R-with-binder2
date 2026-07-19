@@ -120,3 +120,123 @@ create_summary (
 #20260712 ~26:12
 
 
+
+#20260729 ~25:21
+#Q1
+x <- c (15, 8, 20, 12)
+
+#my_max <- function (x){
+#  Max = max (x)
+#}
+#my_max (x)
+
+my_max2 <- function (x){
+  Max = max (x)
+  return (Max)
+}
+my_max2 (x)
+
+#Q2
+x <- c (10, 20, 30)
+#center <- function {
+#  df = (x) - mean (x)
+#  return (df)
+#}
+#center (x)
+
+
+center <- function (x){
+  df = (x) - mean (x)
+  return (df)
+}
+center (x)
+
+center <- function (x){
+  x - mean (x)
+}
+center (x)
+
+#Q3
+mean <- c ("alice", "bob", "charlie")
+upcase <- function (mean){
+  toupper (mean)
+}
+upcase (mean)
+
+#Q4
+x <- 1:10
+#divisor <- function (x) {
+#  if (x%%2){ return ()}
+#  }
+#divisor (x)
+even <- function (x) {
+  x[x %% 2== 0]
+  return (x)
+}
+even <- function(x) {
+  x[x %% 2 == 0]
+}
+even (x)
+
+##################################
+x[2]
+##################################
+
+#Q5
+base <- c (100, 120, 130)
+post <- c (95, 100, 140)
+#calc_change (base, post) {
+#  df = post - base
+#}
+#calc_change (base, post)
+calc_change <- function (base, post) {
+  df = post - base
+}
+calc_change (base, post)
+
+
+
+#Q6
+adsl <- data.frame (
+  AGE = c (25, 40, 33, 55),
+  SEX = rep (c("M", "F"),  each= 2)
+)
+adsl
+#mean_var <- function (adsl) {
+#  mean (adsl[AGE])
+#}
+#mean_var (adsl, "AGE")
+
+
+mean_var <- function (data, var) {
+  mean (data[[var]])
+}
+mean_var (adsl, "AGE")
+
+
+#############################
+adsl["AGE"]
+adsl[["AGE"]]
+#############################
+
+#Q7
+adsl <- data.frame (
+  TRT = rep (c ("Drug", "PBO"), each = 2),
+  AGE = c (40, 50, 60, 55)
+)
+adsl
+#group_mean <- function (data, var1, var2) {
+#  mean (data[[var1]])
+#  mean (data[[var2]])
+#}
+#group_mean (adsl, "TRT", "AGE")
+group_mean <- function (data, group, var) {
+  aggregate (
+    data [[var]],
+    by = list (data[[group]]),
+    FUN = mean
+  )
+}
+group_mean (adsl, "TRT", "AGE")
+
+#20260729 ~26:42
